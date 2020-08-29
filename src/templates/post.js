@@ -10,22 +10,6 @@ export const Product=(props)=>{
     let [prod_name,setProdName]=useState(props.product_name)
     let [scale,setScale]=useState(props.scale)
     let [quantity,setQuantity]=useState(props.quantity)
-
-    const input_handler=(event)=>{
-        console.log(event)
-        if(event.target.name=='product_name')
-        {
-            setProdName(event.target.value)
-        }
-        else if(event.target.name=='scale')
-        {
-            scale=event.target.value
-        }
-        else if(event.target.name=='quantity')
-        {
-            quantity=event.target.value
-        }
-    }
     // console.log(props)
     let content=
         (
