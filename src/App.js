@@ -51,10 +51,10 @@ class App extends Component {
             <ReactBootStrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <ReactBootStrap.Navbar.Collapse id="responsive-navbar-nav">
                 <ReactBootStrap.Nav className="mr-auto">
-                <ReactBootStrap.Nav.Link><Link  to="/add_items" style={{ color: '#FFF',textDecoration:'none' }}>Add Items</Link></ReactBootStrap.Nav.Link>
-                <ReactBootStrap.Nav.Link><Link  to="/add_cust" style={{ color: '#FFF',textDecoration:'none' }}>Add Customer</Link></ReactBootStrap.Nav.Link>
-                <ReactBootStrap.Nav.Link><Link  to="/place_do" style={{ color: '#FFF',textDecoration:'none' }}>Place DO</Link></ReactBootStrap.Nav.Link>
-                <ReactBootStrap.Nav.Link><Link  to="/order_history" style={{ color: '#FFF',textDecoration:'none' }}>Order History</Link></ReactBootStrap.Nav.Link>
+                <ReactBootStrap.Nav.Link variant="danger"><Link  to="/add_items" onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}} style={{ color: '#FFF',textDecoration:'none' }}>Add Items</Link></ReactBootStrap.Nav.Link>
+                <ReactBootStrap.Nav.Link><Link  to="/add_cust" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Add Customer</Link></ReactBootStrap.Nav.Link>
+                <ReactBootStrap.Nav.Link><Link  to="/place_do" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Place DO</Link></ReactBootStrap.Nav.Link>
+                <ReactBootStrap.Nav.Link><Link  to="/order_history" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Order History</Link></ReactBootStrap.Nav.Link>
             </ReactBootStrap.Nav>
     
             </ReactBootStrap.Navbar.Collapse>
