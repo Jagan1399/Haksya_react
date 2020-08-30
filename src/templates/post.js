@@ -1,5 +1,4 @@
-import React,{Component,useState} from 'react'
-import ReactDOM from 'react-dom'
+import React,{useState} from 'react'
 import { render } from '@testing-library/react'
 
 
@@ -51,63 +50,25 @@ export const Customer=(props)=>{
     }
 }
 
+export const Seller_temp=(props)=>{
+    // console.log(props)
+    let [seller_name,setSellerName]=useState(props.seller_name)
+    let [address,setAddress]=useState(props.address)
+    render()
+    {
+        // console.log("RERENDERING")
+        return(
+            <tr>
+            <td contentEditable={props.can_Edit ? true:false} name="seller_name" onInput={e=>{setSellerName(e.target.innerHTML)}} >{props.seller_name}</td>
+            <td contentEditable={props.can_Edit ? true:false} name="address" onInput={e=>{setAddress(e.target.innerHTML)}} >{props.address}</td>
+            <td><button onClick={()=>{
+                props.delete_seller(props.id)
+            }}>x</button></td>
+            <td><button onClick={()=>{props.edit_sell_id(props.id)}}>Edit</button></td>
+            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,seller_name,address)}}>Save</button></td>
+            </tr>
+        )
+    }
+}
 
 
-// function post(props)
-// {
-//     const isLoading=props.isLoading
-//     console.log(props)
-//     render()
-//     {
-//     if(!isLoading)
-//     {
-//         return <loading />
-//     }
-//     else{
-//         props.cust_list.map(cust=>{
-//             return <table cust={cust} />
-//         })
-//     }
-// }}
-
-// function loading()
-// {
-//     return <h2>Loading...</h2>
-// }
-// function table(props)
-// {
-//     console.log("FROM"+props)
-//     return (
-//         <table>
-//             <tr><th>Email</th></tr>
-//             <tr><td>{props.cust.email}</td></tr>
-//         </table>
-//     )
-// }
-
-// // ReactDOM.render(
-// //     <post  />,
-// //     document.getElementById('root')
-// // )
-
-
-
-
-// export default post
-
-
-
-
-// {/* <div>        
-// <table>
-//     <tr>
-//         <th>Email</th>
-//     </tr>
-//     <tr>
-//         {props.cust_list.map((post,index)=>{
-//             <td key={index}>{post.email}</td>
-//         })}
-//     </tr>
-// </table>
-
-// </div> */}

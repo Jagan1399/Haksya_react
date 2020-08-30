@@ -1,4 +1,4 @@
-import React,{useState,Component} from 'react';
+import React,{Component} from 'react';
 import * as ReactBootStrap from "react-bootstrap"
 import './App.css'
 import {
@@ -8,9 +8,10 @@ import {
     Link
   } from "react-router-dom";
   import Home from './components/home'
-  import Add_Cust from './components/add_cust'
-  import Add_Items from './components/add_items'
+  import AddCust from './components/add_cust'
+  import AddItems from './components/add_items'
   import Order from './components/order_history'
+  import Seller from './components/sellers'
 
 class App extends Component {
     constructor(props) {
@@ -51,8 +52,9 @@ class App extends Component {
             <ReactBootStrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <ReactBootStrap.Navbar.Collapse id="responsive-navbar-nav">
                 <ReactBootStrap.Nav className="mr-auto">
-                <ReactBootStrap.Nav.Link variant="danger"><Link  to="/add_items" onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}} style={{ color: '#FFF',textDecoration:'none' }}>Add Items</Link></ReactBootStrap.Nav.Link>
+                <ReactBootStrap.Nav.Link><Link  to="/add_items" onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}} style={{ color: '#FFF',textDecoration:'none' }}>Add Items</Link></ReactBootStrap.Nav.Link>
                 <ReactBootStrap.Nav.Link><Link  to="/add_cust" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Add Customer</Link></ReactBootStrap.Nav.Link>
+                <ReactBootStrap.Nav.Link><Link  to="/add_sellers" onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}} style={{ color: '#FFF',textDecoration:'none' }}>Add Sellers</Link></ReactBootStrap.Nav.Link>
                 <ReactBootStrap.Nav.Link><Link  to="/place_do" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Place DO</Link></ReactBootStrap.Nav.Link>
                 <ReactBootStrap.Nav.Link><Link  to="/order_history" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Order History</Link></ReactBootStrap.Nav.Link>
             </ReactBootStrap.Nav>
@@ -64,10 +66,13 @@ class App extends Component {
                     <Home />
                 </Route>
                 <Route path="/add_items">
-                    <Add_Items />
+                    <AddItems />
                 </Route>
                 <Route path="/add_cust">
-                    <Add_Cust />
+                    <AddCust />
+                </Route>
+                <Route path="/add_sellers">
+                    <Seller />
                 </Route>
                 <Route path="/order_history">
                     <Order />
