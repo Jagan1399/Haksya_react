@@ -6,6 +6,7 @@ import { render } from '@testing-library/react'
 
 
 export const Product=(props)=>{
+    // console.log(props)
     // let prod_name='',scale='',quantity=0
     let [prod_name,setProdName]=useState(props.product_name)
     let [scale,setScale]=useState(props.scale)
@@ -31,13 +32,20 @@ export const Product=(props)=>{
 
 export const Customer=(props)=>{
     // console.log(props)
+    let [cust_name,setCustName]=useState(props.customer_name)
+    let [address,setAddress]=useState(props.address)
     render()
     {
         // console.log("RERENDERING")
         return(
             <tr>
-            <td>{props.customer_name}</td>
-            <td>{props.address}</td>
+            <td contentEditable={props.can_Edit ? true:false} name="cust_name" onInput={e=>{setCustName(e.target.innerHTML)}} >{props.customer_name}</td>
+            <td contentEditable={props.can_Edit ? true:false} name="address" onInput={e=>{setAddress(e.target.innerHTML)}} >{props.address}</td>
+            <td><button onClick={()=>{
+                props.delete_cust(props.id)
+            }}>x</button></td>
+            <td><button onClick={()=>{props.edit_prod(props.id)}}>Edit</button></td>
+            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,cust_name,address)}}>Save</button></td>
             </tr>
         )
     }

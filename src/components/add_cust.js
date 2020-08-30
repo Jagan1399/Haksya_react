@@ -12,20 +12,64 @@ class Add_cust extends Component{
             name:'',
             address:'',
             cust_list:[],
-            is_Loading:false
+            is_Loading:false,
+            can_edit:false,
+            cust_id:''
+
        }
    }
 
-   shouldComponentUpdate(nextprops,nextstate)
-   {
-        if(this.state.name===nextprops.name)
-        {
-            return false
-        }
-        else{
-            return true
-        }
-   }
+   delete_handler=(id)=>{
+    fetch(`http://178.128.90.226:8000/customer/${id}`,{
+        method:'DELETE'
+    })
+    .then(resd=>{
+        const del_cust_id=this.state.cust_list.map(cust=>{
+            if(cust.id===id)
+            {
+                return cust
+            }
+        })
+        console.log(del_cust_id)
+        this.state.cust_list.pop(del_cust_id)
+        // console.log(this.state.product_list)
+        this.setState({
+            cust_list:this.state.cust_list
+        })
+        console.log(this.state.cust_list)
+    })
+        .catch(err=>console.log(err))
+    }
+
+    get_toEdit_cust=(id)=>{
+        console.log(id)
+        this.setState({
+            can_edit:true,
+            cust_id:id
+        })
+    }
+
+    edit_Handler=async (id,name,address)=>{
+        const customer={customer_name:name,address:address}
+        console.log(customer)
+        await fetch(`http://178.128.90.226:8000/customer/${id}`,{
+            method:"PUT",
+            headers:{
+                "Content-Type":'application/json'
+            },
+            body:JSON.stringify(customer)
+        })
+        .then(res=>{return res.json()})
+        .then(resd=>{
+            console.log(resd)
+            this.setState({
+                can_edit:false,
+                cust_id:''
+            })
+        })
+    }
+
+
    componentDidMount()
    {
        fetch('http://178.128.90.226:8000/customers')
@@ -144,8 +188,16 @@ class Add_cust extends Component{
                     </tr>
                 
                         {this.state.cust_list.map(cust=>{
-                            console.log(cust)
-                            return <Customer address={cust.address} customer_name={cust.customer_name} />
+                            // console.log(cust)
+                            return <Customer 
+                                id={cust.id}
+                                address={cust.address} 
+                                customer_name={cust.customer_name} 
+                                delete_cust={this.delete_handler}
+                                can_Edit={this.state.cust_id==cust.id}
+                                edit_prod={this.get_toEdit_cust}
+                                edit_handler={this.edit_Handler}
+                            />
                         })}
                 
                 </table>
