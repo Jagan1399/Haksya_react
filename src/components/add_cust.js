@@ -24,19 +24,10 @@ class Add_cust extends Component{
         method:'DELETE'
     })
     .then(resd=>{
-        const del_cust_id=this.state.cust_list.map(cust=>{
-            if(cust.id===id)
-            {
-                return cust
-            }
-        })
-        console.log(del_cust_id)
-        this.state.cust_list.pop(del_cust_id)
-        // console.log(this.state.product_list)
+        const upd_cust_list=this.state.cust_list.filter(cust=>cust.id!==id)
         this.setState({
-            cust_list:this.state.cust_list
+            cust_list:upd_cust_list
         })
-        console.log(this.state.cust_list)
     })
         .catch(err=>console.log(err))
     }

@@ -67,17 +67,9 @@ class Add_Items extends Component {
             method:'DELETE'
         })
         .then(resd=>{
-            const toDel=this.state.product_list.map(prod=>{
-                if(prod.id===id)
-                {
-                    return prod
-                }
-            })
-            console.log(toDel)
-            this.state.product_list.pop(toDel)
-            // console.log(this.state.product_list)
+            const upd_prod_list=this.state.product_list.filter(prod=>prod.id!==id)
             this.setState({
-                product_list:this.state.product_list
+                product_list:upd_prod_list
             })
         })
         .catch(err=>console.log(err))
