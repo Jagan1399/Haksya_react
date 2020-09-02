@@ -1,21 +1,43 @@
 import React,{useState} from 'react'
 import { render } from '@testing-library/react'
+import ReactDOM from 'react-dom'
 
 
 
 
 export const Product=(props)=>{
-    // console.log(props)
-    // let prod_name='',scale='',quantity=0
+    console.log(props)
     let [prod_name,setProdName]=useState(props.product_name)
     let [scale,setScale]=useState(props.scale)
     let [quantity,setQuantity]=useState(props.quantity)
+    // console.log(props._editable)
+    // let prod_name='',scale='',quantity=0
+    const scale_options=['PKT','CTN','BAG','BOX']
+  
+    
+    // const dropdown=  <select onChange={e=>{setScale(e.target.value)}}>
+    //              {
+    //                  scale_options.map(opt_val=>{
+    //                  return <option>{opt_val}</option>
+    //                  })
+    //              }
+    //         </select>
+    
+    // if(props._editable)
+    // {
+    //     console.log(dropdown)
+    //     // document.getElementById('scale_ele').innerHTML=dropdown
+    //     ReactDOM.render(dropdown,document.getElementById('scale_ele'))
+    // }
+   
+    
+    
     // console.log(props)
     let content=
         (
             <tr>
             <td contentEditable={props.can_edit ? true:false} name="product_name" onInput={e=>{setProdName(e.target.innerHTML)}}>{props.product_name}</td>
-            <td contentEditable={props.can_edit ? true:false} name="scale" onInput={e=>{setScale(e.target.innerHTML)}}>{props.scale}</td>
+            <td contentEditable={props.can_edit ? true:false} name="scale" id="scale_ele" onInput={e=>{setScale(e.target.innerHTML)}}>{props.scale}</td>
             <td contentEditable={props.can_edit ? true:false} name="quantity" onInput={e=>{setQuantity(e.target.innerHTML)}} >{props.quantity}</td>
             <td><button onClick={()=>{
                 props.on_delete(props.id)

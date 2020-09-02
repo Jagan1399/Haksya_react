@@ -33,7 +33,7 @@ class Add_Items extends Component {
 
    edit_product=async (id,name,scale,quantity)=>{
        const product={product_name:name,scale:scale,quantity:quantity}
-       console.log(product)
+       console.log(scale)
        console.log(id)
        await fetch(`http://178.128.90.226:8000/product/${id}`,{
            method:"PUT",
@@ -46,8 +46,10 @@ class Add_Items extends Component {
        .then(resd=>{
            console.log(resd)
            this.setState({
-               edit_prod:''
+               edit_prod:'',
+               editable:false
            })
+           this.componentDidMount()
        })
 
    }
@@ -221,6 +223,7 @@ class Add_Items extends Component {
                                         edit_prod={this.state.edit_prod}
                                         can_edit={this.state.edit_prod==prod.id}
                                         edit_product={this.edit_product}
+                                        _editable={this.state.editable}
                                 
                              />
                         })}
