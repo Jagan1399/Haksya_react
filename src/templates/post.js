@@ -94,3 +94,21 @@ export const Seller_temp=(props)=>{
 }
 
 
+export const Place_order=(props)=>{
+    let [quantity,setQuantity]=useState(0)
+    // console.log(props)
+    render()
+    {
+    return (
+        <tr>
+            <td name="prod_name">{props.prod_name}</td>
+            <td name="scale">{props.scale}</td>
+            <td name="avai_quan">{props.quantity}</td>
+            <td><input type="number" name="req_quan" onChange={e=>{setQuantity(e.target.value)}}></input></td>
+            <td><input type="checkbox" onChange={e=>{
+                props.on_check(props.id,props.prod_name,props.scale,props.quantity,quantity,e.target.checked)
+                }}></input></td>
+        </tr>
+    )
+    }
+}

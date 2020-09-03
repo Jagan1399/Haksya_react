@@ -12,6 +12,7 @@ import {
   import AddItems from './components/add_items'
   import Order from './components/order_history'
   import Seller from './components/sellers'
+  import PlaceDO from './components/place_do'
 
 class App extends Component {
     constructor(props) {
@@ -76,6 +77,9 @@ class App extends Component {
                 </Route>
                 <Route path="/order_history">
                     <Order />
+                </Route>
+                <Route path="/place_do">
+                    <PlaceDO />
                 </Route>
             </Switch>
         </div>
