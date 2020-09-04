@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
 import { render } from '@testing-library/react'
 import ReactDOM from 'react-dom'
+import Card from 'react-bootstrap/Card'
 
 
 
@@ -102,6 +103,7 @@ export const Place_order=(props)=>{
     render()
     {
     return (
+        
         <tr>
             <td name="prod_name">{props.prod_name}</td>
             <td name="scale">{props.scale}</td>
@@ -110,7 +112,76 @@ export const Place_order=(props)=>{
             <td><input type="checkbox" onChange={e=>{
                 props.on_check(props.id,props.prod_name,props.scale,props.quantity,quantity,e.target.checked)
                 }}></input></td>
-        </tr>
+        </tr> 
+
     )
     }
 }
+
+
+// export const Place_order_card=(props)=>{
+//     render()
+//     {
+//         return (
+//             <Card style={{ width: '18rem' }}>
+//             <Card.Body>
+//                 <Card.Title>{props.prod_name}</Card.Title>
+//                 <Card.Subtitle className="mb-2 text-muted">{props.price}</Card.Subtitle>
+//                 <Card.Text>
+//                     {props.scale}
+//                 </Card.Text>
+//                 <Card.Text>
+//                     {props.quantity}
+//                 </Card.Text>
+//                 <Card.Link href="#">Card Link</Card.Link>
+//                 <Card.Link href="#">Another Link</Card.Link>
+//             </Card.Body>
+//             </Card>
+//         )
+//     }
+// }
+
+// export const Place_order_card_pen=(props)=>{
+//     render()
+//     {
+//         return (
+        
+//         <div class="shopping-cart">
+
+//             <div class="column-labels">
+//             <label class="product-image">Image</label>
+//             <label class="product-details">Product</label>
+//             <label class="product-price">Price</label>
+//             <label class="product-quantity">Quantity</label>
+//             <label class="product-removal">Remove</label>
+//             <label class="product-line-price">Total</label>
+//             </div>
+//             <div class="product">
+//                 <div class="product-image">
+//                     <img src=""/>
+//                 </div>
+//                 <div class="product-details">
+//                     <div class="product-title">{props.prod_name}</div>
+//                     <p class="product-description">{props.scale}</p>
+//                 </div>
+//                 <div class="product-price">{props.price}</div>
+//                 <div class="product-quantity">
+//                     <input type="number" value="2" min="1"/>
+//                 </div>
+//                 <div class="product-removal">
+//                     <button class="remove-product">
+//                         Remove
+//                     </button>
+//                 </div>
+//                 <div class="product-line-price">25.98</div>
+//             </div>
+//         </div>
+//         )
+//     }
+// }
+
+
+
+
+
+

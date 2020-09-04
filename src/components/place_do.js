@@ -5,6 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
 import {Place_order} from '../templates/post'
 import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
 
 class Place_do extends Component{
     constructor(props) {
@@ -149,32 +150,33 @@ class Place_do extends Component{
                         </Form.Control>
                     </Form.Group>
                 </Form>
-          <Table striped bordered hover size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
-              <thead>
-                  <tr>
-                      <th>Product Name</th>
-                      <th>Scale</th>
-                      <th>Available Quantity</th>
-                      <th>Quantity</th>
-                      <th>Select</th>
-                  </tr>
-                </thead>
-                <tbody>
-                 {
-                     this.state.product_list.map(prod=>{
-                        return <Place_order 
-                            id={prod.id}
-                            customer_name={this.state.curr_cust}
-                            prod_name={prod.product_name}
-                            scale={prod.scale}
-                            quantity={prod.quantity}
-                            on_check={this.check_add}
-                            has_cust_change={this.state.cust_change}
-                         />
-                     })
-                 }
-                </tbody>
-          </Table> 
+                <Table striped bordered hover size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
+                    <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Scale</th>
+                        <th>Available Quantity</th>
+                        <th>Quantity</th>
+                        <th>Select</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.product_list.map(prod=>{
+                            return <Place_order
+                                id={prod.id}
+                                customer_name={this.state.curr_cust}
+                                prod_name={prod.product_name}
+                                scale={prod.scale}
+                                quantity={prod.quantity}
+                                on_check={this.check_add}
+                                has_cust_change={this.state.cust_change}
+                            />
+                        })
+                    }
+                    </tbody>
+                </Table>   
+               
           <Button 
             variant="outline-primary" 
             style={{marginLeft:"45%"}} 
@@ -187,3 +189,39 @@ class Place_do extends Component{
 
 
 export default Place_do
+
+
+
+
+
+
+
+
+
+// {
+//     this.state.product_list.map(prod=>{
+//        return <Place_order_card
+//            id={prod.id}
+//            customer_name={this.state.curr_cust}
+//            prod_name={prod.product_name}
+//            scale={prod.scale}
+//            quantity={prod.quantity}
+//            on_check={this.check_add}
+//            has_cust_change={this.state.cust_change}
+//         />
+//     })
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
