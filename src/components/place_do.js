@@ -21,7 +21,8 @@ class Place_do extends Component{
             temp_cart:{
                 customer_id:'',
                 products:[]
-            }
+            },
+            cust_change:false
         }
     }
 
@@ -55,7 +56,7 @@ class Place_do extends Component{
            })
            
            
-           console.log(this.state.cust_list)
+        //    console.log(this.state.cust_list)
        })
     }
 
@@ -65,12 +66,12 @@ class Place_do extends Component{
         let {curr_cust_id,temp_cart}=this.state
         curr_cust_id=cust_id
         temp_cart.customer_id=curr_cust_id
-        temp_cart.products=[]
         this.setState({
             curr_cust_id,
             temp_cart,
+            cust_change:true
         })
-        // console.log(temp_cart)
+        console.log(temp_cart)
         
     }
 
@@ -87,22 +88,46 @@ class Place_do extends Component{
             temp_cart.customer_id=this.state.curr_cust_id
             temp_cart.products.push(product)
            this.setState({
-              temp_cart
+              temp_cart,
+              cust_change:false
            })
         }
         else if(!is_check)
         {
             temp_cart.products=temp_cart.products.filter(prod=>prod.id!==id)
             this.setState({
-                temp_cart
+                temp_cart,
+                cust_change:false
             })
         }
         console.log(temp_cart)
     }
 
-    place_order()
+    place_order(event)
     {
-        
+        console.log(event)
+        fetch('http://178.128.90.226:8000/placeorder',{
+            headers:{
+                'Content-Type':"application/json"
+            },
+            method:"POST",
+            body:JSON.stringify(this.state.temp_cart)
+        })
+        .then(res=>{res.json()})
+        .then(resd=>{
+            console.log(resd)
+            let {curr_cust_id,temp_cart}=this.state
+            curr_cust_id=null
+            temp_cart.customer_id=curr_cust_id
+            temp_cart.products=[]
+            this.setState({
+                curr_cust_id,
+                temp_cart
+            })
+            console.log(temp_cart)
+
+        })
+        .catch(err=>console.log(err))
     }
 
 
@@ -144,6 +169,7 @@ class Place_do extends Component{
                             scale={prod.scale}
                             quantity={prod.quantity}
                             on_check={this.check_add}
+                            has_cust_change={this.state.cust_change}
                          />
                      })
                  }
@@ -152,7 +178,7 @@ class Place_do extends Component{
           <Button 
             variant="outline-primary" 
             style={{marginLeft:"45%"}} 
-            onClick={this.place_order}
+            onClick={e=>{this.place_order(e)}}
           >Submit</Button>
           </div>
         )
