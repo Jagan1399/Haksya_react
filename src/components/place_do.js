@@ -4,18 +4,22 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
 import {Place_order} from '../templates/post'
+import Button from 'react-bootstrap/Button'
 
 class Place_do extends Component{
     constructor(props) {
         super(props)
-    
+        this.check_add=this.check_add.bind(this)
+        this.place_order=this.place_order.bind(this)
+        this.set_curr_cust=this.set_curr_cust.bind(this)
         this.state = {
             order_list:[],
             product_list:[],
             cust_list:[],
             curr_cust:'',
+            curr_cust_id:0,
             temp_cart:{
-                customer:'',
+                customer_id:'',
                 products:[]
             }
         }
@@ -40,43 +44,81 @@ class Place_do extends Component{
        .then(res=>{return res.json()})
        .then(resData=>{
         //    console.log(resData)
+        let temp_cust_list=resData
            this.setState({
-               cust_list:resData
+               cust_list:[
+                   {
+                       id:null,
+                       customer_name:'Select Customer'
+                   }
+               ].concat(temp_cust_list)
            })
-           console.log(resData)
+           
+           
+           console.log(this.state.cust_list)
        })
+    }
+
+    set_curr_cust(cust_id)
+    {
+        // console.log(cust_id)
+        let {curr_cust_id,temp_cart}=this.state
+        curr_cust_id=cust_id
+        temp_cart.customer_id=curr_cust_id
+        temp_cart.products=[]
+        this.setState({
+            curr_cust_id,
+            temp_cart,
+        })
+        // console.log(temp_cart)
+        
     }
 
     check_add(id,name,scale,avai_quan,req_quan,is_check)
     {   
         // console.log(id+" "+name+" "+scale+" "+avai_quan+" "+req_quan+" "+is_check+" ")
-        
+        // console.log(this)
+        const {temp_cart}=this.state
+        console.log(this.state.curr_cust_id)
         if(is_check)
         {
-            const product={id:id,product_name:name,scale:scale,quantity:avai_quan,req_quan:req_quan}
+            // const product={id:id,product_name:name,scale:scale,quantity:avai_quan,req_quan:req_quan}
+            const product={id:id,quantity:req_quan}
+            temp_cart.customer_id=this.state.curr_cust_id
+            temp_cart.products.push(product)
            this.setState({
-               temp_cart:{
-                   customer:this.state.curr_cust,
-                   products:this.state.temp_cart.products.push(product)
-               }
+              temp_cart
            })
-           console.log(this.state.temp_cart)
         }
+        else if(!is_check)
+        {
+            temp_cart.products=temp_cart.products.filter(prod=>prod.id!==id)
+            this.setState({
+                temp_cart
+            })
+        }
+        console.log(temp_cart)
     }
+
+    place_order()
+    {
+        
+    }
+
 
     
     render()
     {
-        
+        const {cust_list}=this.state
         return (
             <div>
                 <Form>
                     <Form.Group>
-                        <Form.Label>Customer</Form.Label>
-                        <Form.Control as="select" onChange={e=>{this.setState({curr_cust:e.target.value})}} >
+                        <Form.Label style={{marginLeft:"20%",marginTop:"8%"}}>Customer</Form.Label>
+                        <Form.Control as="select" onChange={e=>{this.set_curr_cust(e.target.value)}} style={{maxWidth:"30%",marginLeft:"20%"}} >
                             {
                                 this.state.cust_list.map(cust=>{
-                                return <option>{cust.customer_name}</option>
+                                return <option value={cust.id}>{cust.customer_name}</option>
                                 })
                             }
                         </Form.Control>
@@ -89,6 +131,7 @@ class Place_do extends Component{
                       <th>Scale</th>
                       <th>Available Quantity</th>
                       <th>Quantity</th>
+                      <th>Select</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,6 +149,11 @@ class Place_do extends Component{
                  }
                 </tbody>
           </Table> 
+          <Button 
+            variant="outline-primary" 
+            style={{marginLeft:"45%"}} 
+            onClick={this.place_order}
+          >Submit</Button>
           </div>
         )
     }
