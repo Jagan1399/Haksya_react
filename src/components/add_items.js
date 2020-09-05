@@ -82,6 +82,12 @@ class Add_Items extends Component {
 
    submitHandler=async (event)=>{
     event.preventDefault()
+    const fd=new FormData()
+    fd.append('product_name',this.state.prod_name)
+    fd.append('scale',this.state.scale)
+    fd.append('quantity',this.state.quantity)
+    fd.append('cost',this.state.cost)
+    fd.append('image',this.state.file,this.state.file.name)
     const product={product_name:this.state.prod_name,scale:this.state.scale,quantity:this.state.quantity,cost:this.state.cost,image:this.state.file}
  //    console.log(body)
     await fetch('http://178.128.90.226:8000/products',{
@@ -89,7 +95,7 @@ class Add_Items extends Component {
         headers:{
             'Content-Type':'application/json'
         },
-        body:JSON.stringify(product)
+        body:fd
     })
     .then(res=>{
         return res.json()
@@ -120,6 +126,13 @@ class Add_Items extends Component {
     //     console.log(`selector event ${event.target.value}`)
     // }
 
+    filehandler=(event)=>{
+        console.log(event.target.files[0])
+        this.setState({
+            file:event.target.files[0]
+        })
+        console.log(this.state.file)
+    }
     inputChangeHandler=(event)=>{
         //    console.log(event.target.name)
         if(event.target.name==='product_name')
@@ -147,20 +160,7 @@ class Add_Items extends Component {
                 cost:event.target.value
             })
         }
-        // else if(event.target.name==='image_file')
-        // {
-        //     console.log(event.target.files[0])
-        //     let {file}=this.state
-        //     if(event.target.files[0].type=='image/jpeg'||event.target.files[0].type=='image/png'||event.target.files[0].type=='image/jpg')
-        //     {
-        //         file=event.target.files[0]
-        //         this.setState({
-        //             file
-        //         })
-        //         console.log(this.state.file)
-        //     }
-        // }
-        //    console.log(this.state.name)
+        
        }
 
     
@@ -220,17 +220,16 @@ class Add_Items extends Component {
                             name="cost" 
                         />
                     </ReactBootStrap.Form.Group>
-                    {/* <ReactBootStrap.Form.Group controlId="file">
+                    <ReactBootStrap.Form.Group controlId="file">
                         <ReactBootStrap.Form.Label>Product Image</ReactBootStrap.Form.Label>
                         <ReactBootStrap.Form.Control 
                                 type="file" 
                                 placeholder="Select Product Image" 
-                                value={this.state.file} 
-                                onChange={this.inputChangeHandler} 
+                                onChange={this.filehandler} 
                                 name="image_file"
                                 style={{marginBottom:"5px"}} 
                             />
-                    </ReactBootStrap.Form.Group> */}
+                    </ReactBootStrap.Form.Group>
                     <ReactBootStrap.Button variant="primary" type="submit" >
                         Submit
                     </ReactBootStrap.Button>
