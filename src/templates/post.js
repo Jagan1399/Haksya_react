@@ -1,7 +1,14 @@
 import React,{useState} from 'react'
 import { render } from '@testing-library/react'
 import ReactDOM from 'react-dom'
-import Card from 'react-bootstrap/Card'
+import {Col,Row,Container} from 'reactstrap'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faEdit } from '@fortawesome/free-regular-svg-icons'
+// import Card from 'react-bootstrap/Card'
+import {
+    Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle, Button
+  } from 'reactstrap';
 
 
 
@@ -11,44 +18,28 @@ export const Product=(props)=>{
     let [prod_name,setProdName]=useState(props.product_name)
     let [scale,setScale]=useState(props.scale)
     let [quantity,setQuantity]=useState(props.quantity)
+    let [cost,setCost]=useState(props.cost)
     // console.log(props._editable)
     // let prod_name='',scale='',quantity=0
     const scale_options=['PKT','CTN','BAG','BOX']
-  
-    
-    // const dropdown=  <select onChange={e=>{setScale(e.target.value)}}>
-    //              {
-    //                  scale_options.map(opt_val=>{
-    //                  return <option>{opt_val}</option>
-    //                  })
-    //              }
-    //         </select>
-    
-    // if(props._editable)
-    // {
-    //     console.log(dropdown)
-    //     // document.getElementById('scale_ele').innerHTML=dropdown
-    //     ReactDOM.render(dropdown,document.getElementById('scale_ele'))
-    // }
-   
-    
-    
-    // console.log(props)
+    let scale_view
+ 
     let content=
         (
             <tr>
             <td contentEditable={props.can_edit ? true:false} name="product_name" onInput={e=>{setProdName(e.target.innerHTML)}}>{props.product_name}</td>
             <td contentEditable={props.can_edit ? true:false} name="scale" id="scale_ele" onInput={e=>{setScale(e.target.innerHTML)}}>{props.scale}</td>
+            <td contentEditable={props.can_edit ? true:false} name="cost" id="cost_ele" onInput={e=>{setCost(e.target.innerHTML)}}><span className="glyphicon glyphicon-usd"></span>{props.cost}</td>
             <td contentEditable={props.can_edit ? true:false} name="quantity" onInput={e=>{setQuantity(e.target.innerHTML)}} >{props.quantity}</td>
             <td><button onClick={()=>{
                 props.on_delete(props.id)
-            }}>x</button></td>
-            <td><button onClick={()=>{props.on_edit(props.id)}}>Edit</button></td>
-            <td hidden={!props.can_edit ? true:false}><button onClick={()=>{props.edit_product(props.id,prod_name,scale,quantity)}}>Save</button></td>
+            }}><span className="glyphicon glyphicon-trash"></span></button></td>
+            <td><button onClick={()=>{props.on_edit(props.id)}}><span className="glyphicon glyphicon-pencil"></span></button></td>
+            <td hidden={!props.can_edit ? true:false}><button onClick={()=>{props.edit_product(props.id,prod_name,scale,quantity,cost)}}><span className="glyphicon glyphicon-ok"></span></button></td>
             </tr>
         )
     return content
-        
+    
 }
 
 
@@ -65,9 +56,9 @@ export const Customer=(props)=>{
             <td contentEditable={props.can_Edit ? true:false} name="address" onInput={e=>{setAddress(e.target.innerHTML)}} >{props.address}</td>
             <td><button onClick={()=>{
                 props.delete_cust(props.id)
-            }}>x</button></td>
-            <td><button onClick={()=>{props.edit_prod(props.id)}}>Edit</button></td>
-            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,cust_name,address)}}>Save</button></td>
+            }}><span className="glyphicon glyphicon-trash"></span></button></td>
+            <td><button onClick={()=>{props.edit_prod(props.id)}}><span className="glyphicon glyphicon-pencil"></span></button></td>
+            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,cust_name,address)}}><span className="glyphicon glyphicon-ok"></span></button></td>
             </tr>
         )
     }
@@ -118,6 +109,47 @@ export const Place_order=(props)=>{
     }
 }
 
+
+export const Card_temp=(props)=>{
+    // console.log(props.cost)
+    // console.log(props.quantity)
+    // console.log(props.image)
+    let [quantity,setQuantity]=useState(0)
+    let [checked,setChecked]=useState(false)
+    return (
+        <div>
+        <Card>
+          <CardImg top src={props.image} alt="Image does not found" style={{width:"100%",height:"200px"}}/>
+          <CardBody>
+            <Row>
+                <Col sm="12">
+                    <CardTitle style={{textAlign:"center",fontSize:"32px"}} name="prod_name">{  props.prod_name  }</CardTitle>
+                </Col>
+            </Row>
+            <CardSubtitle style={{textAlign:"center"}} name="scale">{props.scale}</CardSubtitle>
+            <CardText style={{textAlign:"center",marginTop:"10px"}} name="cost"><span className="glyphicon glyphicon-usd"></span>{props.cost}</CardText>
+            <Row>
+            <Col sm="6">
+                <CardText style={{marginLeft:"20%",paddingLeft:"20px"}} name="quantity">{props.quantity} </CardText>
+            </Col>
+            <Col sm="6">
+                <input style={{borderRadius:"5px",width:"80%",paddingLeft:"20px",marginLeft:"10%",marginBottom:"10%"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(e.target.value)}}></input>
+            </Col>
+            </Row>
+            <Row>
+                <Col sm="6">
+                    <Button style={{}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost)}}>Add to Cart</Button>
+                </Col>
+                <Col sm="6">
+                <Button style={{ }} className="btn btn-danger" onClick={e=>{props.delete_from_cart(props.id,quantity,props.cost);setQuantity(0)}}>Delete from Cart</Button>
+                </Col>
+            </Row>
+            
+          </CardBody>
+        </Card>
+      </div>
+    )
+}
 
 // export const Place_order_card=(props)=>{
 //     render()
@@ -179,9 +211,3 @@ export const Place_order=(props)=>{
 //         )
 //     }
 // }
-
-
-
-
-
-

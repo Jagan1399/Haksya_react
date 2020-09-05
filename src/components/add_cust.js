@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import './add_cust.css'
 import * as ReactBootStrap from "react-bootstrap"
+import Table from 'react-bootstrap/Table'
 
 import  {Name,Customer} from '../templates/post'
 
@@ -136,7 +137,7 @@ class Add_cust extends Component{
     return (
         <div>
             <div class="container">
-                <h1>Add Customer</h1>
+                <h1 style={{textAlign:"center"}}>Add Customer</h1>
                 <ReactBootStrap.Form onSubmit={this.submitHandler}>
                     <ReactBootStrap.Form.Group controlId="customer_name">
                         <ReactBootStrap.Form.Label>Customer Name</ReactBootStrap.Form.Label>
@@ -154,9 +155,8 @@ class Add_cust extends Component{
 
                     <ReactBootStrap.Form.Group controlId="customer_address">
                         <ReactBootStrap.Form.Label>Address</ReactBootStrap.Form.Label>
-                        <ReactBootStrap.Form.Control 
-                            type="text" 
-                            placeholder="Address" 
+                        <ReactBootStrap.Form.Control as="textarea" rows="3" 
+                            placeholder="Enter Customer Address" 
                             value={this.state.address} 
                             onChange={this.inputChangeHandler } 
                             name="address" 
@@ -167,7 +167,46 @@ class Add_cust extends Component{
                     </ReactBootStrap.Button>
                 </ReactBootStrap.Form>
             </div>
-            <div class="table">
+            <Table striped hover borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
+                    <thead>
+                    <tr>
+                        <th style={{textAlign:"center"}}>Customer Name</th>
+                        <th style={{textAlign:"center"}}>Address</th>
+                        <th style={{textAlign:"center"}}>Delete</th>
+                        <th style={{textAlign:"center"}}>Edit</th>
+                        <th style={{textAlign:"center"}} hidden={!this.state.can_edit}>Save</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {this.state.cust_list.map(cust=>{
+                            // console.log(cust)
+                            return <Customer 
+                                id={cust.id}
+                                address={cust.address} 
+                                customer_name={cust.customer_name} 
+                                delete_cust={this.delete_handler}
+                                can_Edit={this.state.cust_id==cust.id}
+                                edit_prod={this.get_toEdit_cust}
+                                edit_handler={this.edit_Handler}
+                            />
+                        })}
+                    </tbody>
+                </Table>
+            
+        </div>
+    )
+    }
+}
+
+export default Add_cust
+
+
+
+
+
+
+
+{/* <div class="table">
                 <table>
                     <tr>
                         <th>Customer Name</th>
@@ -188,12 +227,4 @@ class Add_cust extends Component{
                         })}
                 
                 </table>
-            </div> 
-        </div>
-    )
-    }
-}
-
-export default Add_cust
-
-
+            </div>  */}

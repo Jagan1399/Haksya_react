@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import * as ReactBootStrap from "react-bootstrap"
 import {Product} from '../templates/post'
+import Table from 'react-bootstrap/Table'
 
 class Add_Items extends Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class Add_Items extends Component {
              scale:'',
              quantity:0,
              editable:false,
-             edit_prod:''
+             edit_prod:'',
+             cost:0
         }
     }
 
@@ -31,8 +33,8 @@ class Add_Items extends Component {
        })
    }
 
-   edit_product=async (id,name,scale,quantity)=>{
-       const product={product_name:name,scale:scale,quantity:quantity}
+   edit_product=async (id,name,scale,quantity,cost)=>{
+       const product={product_name:name,scale:scale,quantity:quantity,cost:cost}
        console.log(scale)
        console.log(id)
        await fetch(`http://178.128.90.226:8000/product/${id}`,{
@@ -79,7 +81,7 @@ class Add_Items extends Component {
 
    submitHandler=async (event)=>{
     event.preventDefault()
-    const product={product_name:this.state.prod_name,scale:this.state.scale,quantity:this.state.quantity}
+    const product={product_name:this.state.prod_name,scale:this.state.scale,quantity:this.state.quantity,cost:this.state.cost}
  //    console.log(body)
     await fetch('http://178.128.90.226:8000/products',{
         method:'POST',
@@ -102,7 +104,8 @@ class Add_Items extends Component {
         this.setState({
             prod_name:'',
             scale:'',
-            quantity:0
+            quantity:0,
+            cost:0
         })
         // this.state.cust_list.push(resd)
      //    console.log(this.state.cust_list)
@@ -137,6 +140,12 @@ class Add_Items extends Component {
                 quantity:event.target.value
             })
         }
+        else if(event.target.name==='cost')
+        {
+            this.setState({
+                cost:event.target.value
+            })
+        }
         //    console.log(this.state.name)
        }
 
@@ -148,7 +157,7 @@ class Add_Items extends Component {
     return (
         <div>
             <div class="container">
-                <h1>Add Products</h1>
+                <h1 style={{textAlign:"center"}}>Add Products</h1>
                 <ReactBootStrap.Form onSubmit={this.submitHandler}>
                     <ReactBootStrap.Form.Group controlId="prod_name">
                         <ReactBootStrap.Form.Label>Product Name</ReactBootStrap.Form.Label>
@@ -167,7 +176,7 @@ class Add_Items extends Component {
                     <ReactBootStrap.Form.Group controlId="scale">
                         <ReactBootStrap.Form.Label>Scale</ReactBootStrap.Form.Label>
                         <br></br>
-                        <select onChange={this.inputChangeHandler} value={this.state.scale} name="scale">
+                        <select onChange={this.inputChangeHandler} value={this.state.scale} name="scale" style={{width:"20%",borderRadius:"5px"}}>
                             {
                                 scale_options.map(option_val=>(
                                     <option>
@@ -177,18 +186,6 @@ class Add_Items extends Component {
                             }
                         </select>
                     </ReactBootStrap.Form.Group>
-                     {/* <ReactBootStrap.Dropdown controlId="scale">
-                        <ReactBootStrap.Dropdown.Toggle variant="secondary" name="scale" onChange={this.inputChangeHandler} value={this.state.scale}>Scale</ReactBootStrap.Dropdown.Toggle>
-                        <ReactBootStrap.Dropdown.Menu >
-                            {
-                                scale_options.map(option_val=>(
-                                    <ReactBootStrap.Dropdown.propTypes>
-                                        {option_val}
-                                    </ReactBootStrap.Dropdown.propTypes>
-                                ))
-                            }
-                        </ReactBootStrap.Dropdown.Menu>
-                    </ReactBootStrap.Dropdown> */}
                     <ReactBootStrap.Form.Group controlId="quantity">
                         <ReactBootStrap.Form.Label>Quantity</ReactBootStrap.Form.Label>
                         <ReactBootStrap.Form.Control 
@@ -199,40 +196,89 @@ class Add_Items extends Component {
                             name="quantity" 
                         />
                     </ReactBootStrap.Form.Group>
+                    <ReactBootStrap.Form.Group controlId="cost">
+                        <ReactBootStrap.Form.Label>Cost</ReactBootStrap.Form.Label>
+                        <ReactBootStrap.Form.Control 
+                            type="number" 
+                            placeholder="Enter Cost of Product" 
+                            value={this.state.cost} 
+                            onChange={this.inputChangeHandler } 
+                            name="cost" 
+                        />
+                    </ReactBootStrap.Form.Group>
                     <ReactBootStrap.Button variant="primary" type="submit" >
                         Submit
                     </ReactBootStrap.Button>
                 </ReactBootStrap.Form>
             </div>
-            <div class="table">
-                <table>
+            <Table striped borderless hover size="sm" style={{maxWidth:"80%",textAlign:"center",marginLeft:"10%",marginRight:"10%"}}>
+                    <thead>
                     <tr>
-                        <th>Product Name</th>
-                        <th>Scale</th>
-                        <th>Quantity</th>
+                        <th style={{textAlign:"center"}}>Product Name</th>
+                        <th style={{textAlign:"center"}}>Scale</th>
+                        <th style={{textAlign:"center"}}>Cost</th>
+                        <th style={{textAlign:"center"}}>Quantity</th>
+                        <th style={{textAlign:"center"}}>Delete</th>
+                        <th style={{textAlign:"center"}}>Edit</th>
+                        <th style={{textAlign:"center"}} hidden={!this.state.editable}>Save</th>
                     </tr>
-                
-                        {this.state.product_list.map(prod=>{
-                            return <Product 
-                                        product_name={prod.product_name} 
-                                        scale={prod.scale} 
-                                        quantity={prod.quantity} 
-                                        on_delete={this.delete_handler} 
-                                        on_edit={this.edit_Handler} 
-                                        id={prod.id}  
-                                        edit_prod={this.state.edit_prod}
-                                        can_edit={this.state.edit_prod==prod.id}
-                                        edit_product={this.edit_product}
-                                        _editable={this.state.editable}
-                                
-                             />
-                        })}
-                
-                </table>
-            </div> 
+                    </thead>
+                    <tbody>
+                    {this.state.product_list.map(prod=>{
+                        return <Product 
+                                    product_name={prod.product_name} 
+                                    image={prod.image}
+                                    scale={prod.scale} 
+                                    quantity={prod.quantity} 
+                                    cost={prod.cost}
+                                    on_delete={this.delete_handler} 
+                                    on_edit={this.edit_Handler} 
+                                    id={prod.id}  
+                                    edit_prod={this.state.edit_prod}
+                                    can_edit={this.state.edit_prod==prod.id}
+                                    edit_product={this.edit_product}
+                                    _editable={this.state.editable}
+                                    
+                        />
+                    })}
+                    </tbody>
+                </Table>
+            
         </div>
     )
     }
 }
 
 export default Add_Items
+
+
+
+// <div class="table">
+// <table>
+//     <tr>
+//         <th>Product Name</th>
+//         <th>Scale</th>
+//         <th>Cost</th>
+//         <th>Quantity</th>
+//     </tr>
+
+//         {this.state.product_list.map(prod=>{
+//             return <Product 
+//                         product_name={prod.product_name} 
+//                         image={prod.image}
+//                         scale={prod.scale} 
+//                         quantity={prod.quantity} 
+//                         cost={prod.cost}
+//                         on_delete={this.delete_handler} 
+//                         on_edit={this.edit_Handler} 
+//                         id={prod.id}  
+//                         edit_prod={this.state.edit_prod}
+//                         can_edit={this.state.edit_prod==prod.id}
+//                         edit_product={this.edit_product}
+//                         _editable={this.state.editable}
+                        
+//              />
+//         })}
+
+// </table>
+// </div>

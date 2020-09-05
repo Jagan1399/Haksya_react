@@ -3,16 +3,18 @@ import Table from 'react-bootstrap/Table'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-import {Place_order} from '../templates/post'
+import {Place_order,Card_temp} from '../templates/post'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
+import {Col,Row,Container} from 'reactstrap'
 
 class Place_do extends Component{
     constructor(props) {
         super(props)
-        this.check_add=this.check_add.bind(this)
+        this.add_to_cart=this.add_to_cart.bind(this)
         this.place_order=this.place_order.bind(this)
         this.set_curr_cust=this.set_curr_cust.bind(this)
+        this.remove_from_cart=this.remove_from_cart.bind(this)
         this.state = {
             order_list:[],
             product_list:[],
@@ -21,9 +23,11 @@ class Place_do extends Component{
             curr_cust_id:0,
             temp_cart:{
                 customer_id:'',
-                products:[]
+                products:[],
+                total_price:0
             },
-            cust_change:false
+            cust_change:false,
+            totalCost:0
         }
     }
 
@@ -76,37 +80,43 @@ class Place_do extends Component{
         
     }
 
-    check_add(id,name,scale,avai_quan,req_quan,is_check)
+    add_to_cart(id,req_quan,cost)
     {   
         // console.log(id+" "+name+" "+scale+" "+avai_quan+" "+req_quan+" "+is_check+" ")
         // console.log(this)
-        const {temp_cart}=this.state
-        console.log(this.state.curr_cust_id)
-        if(is_check)
-        {
+        let {temp_cart,totalCost}=this.state
+        // console.log(this.state.curr_cust_id)
             // const product={id:id,product_name:name,scale:scale,quantity:avai_quan,req_quan:req_quan}
-            const product={id:id,quantity:req_quan}
+            const product={product_id:id,quantity:req_quan}
             temp_cart.customer_id=this.state.curr_cust_id
             temp_cart.products.push(product)
+            totalCost=totalCost+(cost*req_quan)
+            temp_cart.total_price=totalCost
            this.setState({
               temp_cart,
-              cust_change:false
+              cust_change:false,
+              totalCost
            })
-        }
-        else if(!is_check)
-        {
-            temp_cart.products=temp_cart.products.filter(prod=>prod.id!==id)
-            this.setState({
-                temp_cart,
-                cust_change:false
-            })
-        }
+      
+        console.log(temp_cart)
+        // console.log(totalCost)
+    }
+
+    remove_from_cart(id,req_quan,cost)
+    {   
+        let {temp_cart,totalCost}=this.state
+        temp_cart.products=temp_cart.products.filter(prod=>prod.product_id!==id)
+        totalCost=totalCost-(req_quan*cost)
+        temp_cart.total_price=totalCost
+        this.setState({
+            temp_cart,
+            totalCost
+        })
         console.log(temp_cart)
     }
 
     place_order(event)
     {
-        console.log(event)
         fetch('http://178.128.90.226:8000/placeorder',{
             headers:{
                 'Content-Type':"application/json"
@@ -116,16 +126,18 @@ class Place_do extends Component{
         })
         .then(res=>{res.json()})
         .then(resd=>{
-            console.log(resd)
+            console.log(resd.success)
             let {curr_cust_id,temp_cart}=this.state
             curr_cust_id=null
             temp_cart.customer_id=curr_cust_id
             temp_cart.products=[]
+            temp_cart.total_price=0
             this.setState({
                 curr_cust_id,
-                temp_cart
+                temp_cart,
+                totalCost:0
             })
-            console.log(temp_cart)
+            
 
         })
         .catch(err=>console.log(err))
@@ -135,13 +147,31 @@ class Place_do extends Component{
     
     render()
     {
+        let prod_card=this.state.product_list.map(prod=>{
+            return (
+                <Col sm="3">
+                <Card_temp 
+                            id={prod.id}
+                            customer_name={this.state.curr_cust}
+                            prod_name={prod.product_name}
+                            scale={prod.scale}
+                            quantity={prod.quantity}
+                            add_to_cart={this.add_to_cart}
+                            has_cust_change={this.state.cust_change}
+                            cost={prod.cost}
+                            image={prod.image}
+                            delete_from_cart={this.remove_from_cart}
+                />
+                </Col>
+            )
+        })
         const {cust_list}=this.state
         return (
             <div>
                 <Form>
                     <Form.Group>
-                        <Form.Label style={{marginLeft:"20%",marginTop:"8%"}}>Customer</Form.Label>
-                        <Form.Control as="select" onChange={e=>{this.set_curr_cust(e.target.value)}} style={{maxWidth:"30%",marginLeft:"20%"}} >
+                        <Form.Label style={{marginLeft:"20px",marginTop:"20px"}}>Customer</Form.Label>
+                        <Form.Control as="select" onChange={e=>{this.set_curr_cust(e.target.value)}} style={{maxWidth:"50%",marginLeft:"20px"}} >
                             {
                                 this.state.cust_list.map(cust=>{
                                 return <option value={cust.id}>{cust.customer_name}</option>
@@ -150,7 +180,7 @@ class Place_do extends Component{
                         </Form.Control>
                     </Form.Group>
                 </Form>
-                <Table striped bordered hover size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
+                {/* <Table striped bordered hover size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
                     <thead>
                     <tr>
                         <th>Product Name</th>
@@ -175,13 +205,29 @@ class Place_do extends Component{
                         })
                     }
                     </tbody>
-                </Table>   
-               
-          <Button 
-            variant="outline-primary" 
-            style={{marginLeft:"45%"}} 
-            onClick={e=>{this.place_order(e)}}
-          >Submit</Button>
+                </Table>    */}
+            
+            <Container fluid>
+                <Row>
+                   {prod_card}
+                </Row>
+            </Container>
+            <Row>
+                <Col md="6">
+                    <p style={{marginLeft:"20px",marginTop:"20px",fontSize:"20px"}}>
+                        Total Cost = <span className="glyphicon glyphicon-usd"></span>{this.state.totalCost}
+                    </p>
+                </Col>
+                <Col md="6">
+                <Button 
+                    variant="outline-primary" 
+                    style={{marginTop:"20px",fontSize:"20px"}} 
+                    onClick={e=>{this.place_order(e)}}>
+                        Place Order
+                </Button>
+                </Col>
+            </Row>
+            
           </div>
         )
     }
