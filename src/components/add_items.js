@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/Table'
 class Add_Items extends Component {
     constructor(props) {
         super(props)
-    
+        this.inputChangeHandler=this.inputChangeHandler.bind(this)
         this.state = {
              product:{},
              isLoading:false,
@@ -16,7 +16,8 @@ class Add_Items extends Component {
              quantity:0,
              editable:false,
              edit_prod:'',
-             cost:0
+             cost:0,
+             file:null
         }
     }
 
@@ -81,7 +82,7 @@ class Add_Items extends Component {
 
    submitHandler=async (event)=>{
     event.preventDefault()
-    const product={product_name:this.state.prod_name,scale:this.state.scale,quantity:this.state.quantity,cost:this.state.cost}
+    const product={product_name:this.state.prod_name,scale:this.state.scale,quantity:this.state.quantity,cost:this.state.cost,image:this.state.file}
  //    console.log(body)
     await fetch('http://178.128.90.226:8000/products',{
         method:'POST',
@@ -146,6 +147,19 @@ class Add_Items extends Component {
                 cost:event.target.value
             })
         }
+        // else if(event.target.name==='image_file')
+        // {
+        //     console.log(event.target.files[0])
+        //     let {file}=this.state
+        //     if(event.target.files[0].type=='image/jpeg'||event.target.files[0].type=='image/png'||event.target.files[0].type=='image/jpg')
+        //     {
+        //         file=event.target.files[0]
+        //         this.setState({
+        //             file
+        //         })
+        //         console.log(this.state.file)
+        //     }
+        // }
         //    console.log(this.state.name)
        }
 
@@ -206,6 +220,17 @@ class Add_Items extends Component {
                             name="cost" 
                         />
                     </ReactBootStrap.Form.Group>
+                    {/* <ReactBootStrap.Form.Group controlId="file">
+                        <ReactBootStrap.Form.Label>Product Image</ReactBootStrap.Form.Label>
+                        <ReactBootStrap.Form.Control 
+                                type="file" 
+                                placeholder="Select Product Image" 
+                                value={this.state.file} 
+                                onChange={this.inputChangeHandler} 
+                                name="image_file"
+                                style={{marginBottom:"5px"}} 
+                            />
+                    </ReactBootStrap.Form.Group> */}
                     <ReactBootStrap.Button variant="primary" type="submit" >
                         Submit
                     </ReactBootStrap.Button>

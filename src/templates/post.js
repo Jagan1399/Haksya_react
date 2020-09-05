@@ -14,7 +14,7 @@ import {
 
 
 export const Product=(props)=>{
-    console.log(props)
+    // console.log(props)
     let [prod_name,setProdName]=useState(props.product_name)
     let [scale,setScale]=useState(props.scale)
     let [quantity,setQuantity]=useState(props.quantity)
