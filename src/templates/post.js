@@ -2,6 +2,11 @@ import React,{useState} from 'react'
 import { render } from '@testing-library/react'
 import ReactDOM from 'react-dom'
 import {Col,Row,Container} from 'reactstrap'
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
+import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+import DoneIcon from '@material-ui/icons/Done';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faEdit } from '@fortawesome/free-regular-svg-icons'
 // import Card from 'react-bootstrap/Card'
@@ -33,9 +38,9 @@ export const Product=(props)=>{
             <td contentEditable={props.can_edit ? true:false} name="quantity" onInput={e=>{setQuantity(e.target.innerHTML)}} >{props.quantity}</td>
             <td><button onClick={()=>{
                 props.on_delete(props.id)
-            }}><span className="glyphicon glyphicon-trash"></span></button></td>
-            <td><button onClick={()=>{props.on_edit(props.id)}}><span className="glyphicon glyphicon-pencil"></span></button></td>
-            <td hidden={!props.can_edit ? true:false}><button onClick={()=>{props.edit_product(props.id,prod_name,scale,quantity,cost)}}><span className="glyphicon glyphicon-ok"></span></button></td>
+            }}><DeleteIcon fontSize="large"/></button></td>
+            <td><button onClick={()=>{props.on_edit(props.id)}}><EditIcon fontSize="large"/></button></td>
+            <td hidden={!props.can_edit ? true:false}><button onClick={()=>{props.edit_product(props.id,prod_name,scale,quantity,cost)}}><DoneIcon fontSize="large"/></button></td>
             </tr>
         )
     return content
@@ -118,7 +123,7 @@ export const Card_temp=(props)=>{
     let [checked,setChecked]=useState(false)
     return (
         <div>
-        <Card>
+        <Card style={{marginTop:"30px"}}>
           <CardImg top src={props.image} alt="Image does not found" style={{width:"100%",height:"200px"}}/>
           <CardBody>
             <Row>

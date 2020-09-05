@@ -250,4 +250,9 @@ label {
         width: 40%;
     }
 }
-    
+
+button {
+  border: none;
+  padding: 0;
+  background: none;
+}

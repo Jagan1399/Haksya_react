@@ -81,20 +81,19 @@ class Add_Items extends Component {
    }
 
    submitHandler=async (event)=>{
+       console.log(this.state.prod_name)
     event.preventDefault()
-    const fd=new FormData()
-    fd.append('product_name',this.state.prod_name)
-    fd.append('scale',this.state.scale)
-    fd.append('quantity',this.state.quantity)
-    fd.append('cost',this.state.cost)
-    fd.append('image',this.state.file,this.state.file.name)
+    let fd=new FormData()
+    fd.append('product_name',this.state.prod_name);
+    fd.append('scale',this.state.scale);
+    fd.append('quantity',this.state.quantity);
+    fd.append('cost',this.state.cost);
+    fd.append('image',this.state.file,this.state.file.name);
     const product={product_name:this.state.prod_name,scale:this.state.scale,quantity:this.state.quantity,cost:this.state.cost,image:this.state.file}
- //    console.log(body)
+    console.log(fd.get("product_name"))
+     //    console.log(body)
     await fetch('http://178.128.90.226:8000/products',{
         method:'POST',
-        headers:{
-            'Content-Type':'application/json'
-        },
         body:fd
     })
     .then(res=>{
@@ -112,7 +111,8 @@ class Add_Items extends Component {
             prod_name:'',
             scale:'',
             quantity:0,
-            cost:0
+            cost:0,
+            file:null
         })
         // this.state.cust_list.push(resd)
      //    console.log(this.state.cust_list)
@@ -228,7 +228,7 @@ class Add_Items extends Component {
                                 onChange={this.filehandler} 
                                 name="image_file"
                                 style={{marginBottom:"5px"}} 
-                            />
+                        />
                     </ReactBootStrap.Form.Group>
                     <ReactBootStrap.Button variant="primary" type="submit" >
                         Submit
