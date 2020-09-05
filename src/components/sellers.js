@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import './add_cust.css'
 import * as ReactBootStrap from "react-bootstrap"
-
+import Table from 'react-bootstrap/Table'
 import  {Seller_temp} from '../templates/post'
 
 class Seller extends Component{
@@ -142,7 +142,7 @@ class Seller extends Component{
                         <ReactBootStrap.Form.Label>Seller Name</ReactBootStrap.Form.Label>
                         <ReactBootStrap.Form.Control 
                             type="text" 
-                            placeholder="Seller Name" 
+                            placeholder="Enter Seller Name" 
                             value={this.state.name} 
                             onChange={this.inputChangeHandler } 
                             name="seller_name" 
@@ -154,9 +154,8 @@ class Seller extends Component{
 
                     <ReactBootStrap.Form.Group controlId="seller_address">
                         <ReactBootStrap.Form.Label>Address</ReactBootStrap.Form.Label>
-                        <ReactBootStrap.Form.Control 
-                            type="text" 
-                            placeholder="Address" 
+                        <ReactBootStrap.Form.Control as="textarea" rows="3"
+                            placeholder="Enter Seller Address" 
                             value={this.state.address} 
                             onChange={this.inputChangeHandler } 
                             name="address" 
@@ -167,15 +166,18 @@ class Seller extends Component{
                     </ReactBootStrap.Button>
                 </ReactBootStrap.Form>
             </div>
-            
-            <div class="table">
-                <table>
+            <Table striped hover borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
+                    <thead>
                     <tr>
-                        <th>Seller Name</th>
-                        <th>Address</th>
+                        <th style={{textAlign:"center"}}>Seller Name</th>
+                        <th style={{textAlign:"center"}}>Address</th>
+                        <th style={{textAlign:"center"}}>Delete</th>
+                        <th style={{textAlign:"center"}}>Edit</th>
+                        <th style={{textAlign:"center"}} hidden={!this.state.can_edit}>Save</th>
                     </tr>
-                
-                        {this.state.seller_list.map(seller=>{
+                    </thead>
+                    <tbody>
+                    {this.state.seller_list.map(seller=>{
                             // console.log(cust)
                             return <Seller_temp
                                 id={seller.id}
@@ -187,9 +189,9 @@ class Seller extends Component{
                                 edit_handler={this.edit_Handler}
                             />
                         })}
-                
-                </table>
-            </div> 
+                    </tbody>
+                </Table>
+            
         </div>
     )
     }
@@ -198,3 +200,26 @@ class Seller extends Component{
 export default Seller
 
 
+
+
+// <div class="table">
+//                 <table>
+//                     <tr>
+//                         <th>Seller Name</th>
+//                         <th>Address</th>
+//                     </tr>
+                
+//                         {this.state.seller_list.map(seller=>{
+//                             // console.log(cust)
+//                             return <Seller_temp
+//                                 id={seller.id}
+//                                 address={seller.address} 
+//                                 seller_name={seller.seller_name} 
+//                                 delete_seller={this.delete_handler}
+//                                 can_Edit={this.state.seller_id==seller.id}
+//                                 edit_sell_id={this.get_toEdit_seller}
+//                                 edit_handler={this.edit_Handler}
+//                             />
+//                         })}
+                
+//                 </table></div>

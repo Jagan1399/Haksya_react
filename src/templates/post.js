@@ -77,9 +77,9 @@ export const Seller_temp=(props)=>{
             <td contentEditable={props.can_Edit ? true:false} name="address" onInput={e=>{setAddress(e.target.innerHTML)}} >{props.address}</td>
             <td><button onClick={()=>{
                 props.delete_seller(props.id)
-            }}>x</button></td>
-            <td><button onClick={()=>{props.edit_sell_id(props.id)}}>Edit</button></td>
-            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,seller_name,address)}}>Save</button></td>
+            }}><span className="glyphicon glyphicon-trash"></span></button></td>
+            <td><button onClick={()=>{props.edit_sell_id(props.id)}}><span className="glyphicon glyphicon-pencil"></span></button></td>
+            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,seller_name,address)}}><span className="glyphicon glyphicon-ok"></span></button></td>
             </tr>
         )
     }

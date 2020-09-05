@@ -170,7 +170,7 @@ class Place_do extends Component{
             <div>
                 <Form>
                     <Form.Group>
-                        <Form.Label style={{marginLeft:"20px",marginTop:"20px"}}>Customer</Form.Label>
+                        <Form.Label style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Customer</Form.Label>
                         <Form.Control as="select" onChange={e=>{this.set_curr_cust(e.target.value)}} style={{maxWidth:"50%",marginLeft:"20px"}} >
                             {
                                 this.state.cust_list.map(cust=>{
@@ -180,53 +180,27 @@ class Place_do extends Component{
                         </Form.Control>
                     </Form.Group>
                 </Form>
-                {/* <Table striped bordered hover size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
-                    <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Scale</th>
-                        <th>Available Quantity</th>
-                        <th>Quantity</th>
-                        <th>Select</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        this.state.product_list.map(prod=>{
-                            return <Place_order
-                                id={prod.id}
-                                customer_name={this.state.curr_cust}
-                                prod_name={prod.product_name}
-                                scale={prod.scale}
-                                quantity={prod.quantity}
-                                on_check={this.check_add}
-                                has_cust_change={this.state.cust_change}
-                            />
-                        })
-                    }
-                    </tbody>
-                </Table>    */}
-            
-            <Container fluid>
+                <Form.Label style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Product List</Form.Label>
+                <Container fluid>
+                    <Row>
+                    {prod_card}
+                    </Row>
+                </Container>
                 <Row>
-                   {prod_card}
+                    <Col md="6">
+                        <p style={{marginLeft:"20px",marginTop:"20px",fontSize:"20px"}}>
+                            Total Cost = <span className="glyphicon glyphicon-usd"></span>{this.state.totalCost}
+                        </p>
+                    </Col>
+                    <Col md="6">
+                    <Button 
+                        variant="outline-primary" 
+                        style={{marginTop:"20px",fontSize:"20px"}} 
+                        onClick={e=>{this.place_order(e)}}>
+                            Place Order
+                    </Button>
+                    </Col>
                 </Row>
-            </Container>
-            <Row>
-                <Col md="6">
-                    <p style={{marginLeft:"20px",marginTop:"20px",fontSize:"20px"}}>
-                        Total Cost = <span className="glyphicon glyphicon-usd"></span>{this.state.totalCost}
-                    </p>
-                </Col>
-                <Col md="6">
-                <Button 
-                    variant="outline-primary" 
-                    style={{marginTop:"20px",fontSize:"20px"}} 
-                    onClick={e=>{this.place_order(e)}}>
-                        Place Order
-                </Button>
-                </Col>
-            </Row>
             
           </div>
         )
@@ -257,6 +231,33 @@ export default Place_do
 //         />
 //     })
 // }
+
+     {/* <Table striped bordered hover size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
+                    <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Scale</th>
+                        <th>Available Quantity</th>
+                        <th>Quantity</th>
+                        <th>Select</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        this.state.product_list.map(prod=>{
+                            return <Place_order
+                                id={prod.id}
+                                customer_name={this.state.curr_cust}
+                                prod_name={prod.product_name}
+                                scale={prod.scale}
+                                quantity={prod.quantity}
+                                on_check={this.check_add}
+                                has_cust_change={this.state.cust_change}
+                            />
+                        })
+                    }
+                    </tbody>
+                </Table>    */}
 
 
 
