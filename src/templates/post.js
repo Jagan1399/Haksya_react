@@ -7,6 +7,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 import DoneIcon from '@material-ui/icons/Done';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
+
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faEdit } from '@fortawesome/free-regular-svg-icons'
 // import Card from 'react-bootstrap/Card'
@@ -131,22 +134,21 @@ export const Card_temp=(props)=>{
                     <CardTitle style={{textAlign:"center",fontSize:"32px"}} name="prod_name">{  props.prod_name  }</CardTitle>
                 </Col>
             </Row>
-            <CardSubtitle style={{textAlign:"center"}} name="scale">{props.scale}</CardSubtitle>
-            <CardText style={{textAlign:"center",marginTop:"10px"}} name="cost"><span className="glyphicon glyphicon-usd"></span>{props.cost}</CardText>
             <Row>
-            <Col sm="6">
-                <CardText style={{marginLeft:"20%",paddingLeft:"20px"}} name="quantity">{props.quantity} </CardText>
-            </Col>
-            <Col sm="6">
-                <input style={{borderRadius:"5px",width:"80%",paddingLeft:"20px",marginLeft:"10%",marginBottom:"10%"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(e.target.value)}}></input>
-            </Col>
+                <Col md="6">
+                    <CardSubtitle style={{textAlign:"center",paddingTop:"2px"}} name="scale"><span className="glyphicon glyphicon-usd"></span>{props.cost} / {props.scale}</CardSubtitle>
+                </Col>
+                <Col md="6">
+                    <input style={{borderRadius:"5px",width:"80%",paddingLeft:"20px",marginLeft:"10%",marginBottom:"10%"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(e.target.value)}}></input>
+                </Col>
             </Row>
+            {/* <CardText style={{textAlign:"center",marginTop:"10px"}} name="cost"><span className="glyphicon glyphicon-usd"></span>{props.cost}</CardText> */}
             <Row>
                 <Col sm="6">
-                    <Button style={{}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost)}}>Add to Cart</Button>
+                    <Button style={{float:"right"}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost)}}><AddShoppingCartIcon fontSize="large"/></Button>
                 </Col>
                 <Col sm="6">
-                <Button style={{ }} className="btn btn-danger" onClick={e=>{props.delete_from_cart(props.id,quantity,props.cost);setQuantity(0)}}>Delete from Cart</Button>
+                <Button style={{ float:"center"}} className="btn btn-danger" onClick={e=>{props.delete_from_cart(props.id,quantity,props.cost);setQuantity(0)}}><RemoveShoppingCartIcon fontSize="large"/></Button>
                 </Col>
             </Row>
             
@@ -156,63 +158,43 @@ export const Card_temp=(props)=>{
     )
 }
 
-// export const Place_order_card=(props)=>{
-//     render()
-//     {
-//         return (
-//             <Card style={{ width: '18rem' }}>
-//             <Card.Body>
-//                 <Card.Title>{props.prod_name}</Card.Title>
-//                 <Card.Subtitle className="mb-2 text-muted">{props.price}</Card.Subtitle>
-//                 <Card.Text>
-//                     {props.scale}
-//                 </Card.Text>
-//                 <Card.Text>
-//                     {props.quantity}
-//                 </Card.Text>
-//                 <Card.Link href="#">Card Link</Card.Link>
-//                 <Card.Link href="#">Another Link</Card.Link>
-//             </Card.Body>
-//             </Card>
-//         )
-//     }
-// }
 
-// export const Place_order_card_pen=(props)=>{
-//     render()
-//     {
-//         return (
-        
-//         <div class="shopping-cart">
 
-//             <div class="column-labels">
-//             <label class="product-image">Image</label>
-//             <label class="product-details">Product</label>
-//             <label class="product-price">Price</label>
-//             <label class="product-quantity">Quantity</label>
-//             <label class="product-removal">Remove</label>
-//             <label class="product-line-price">Total</label>
-//             </div>
-//             <div class="product">
-//                 <div class="product-image">
-//                     <img src=""/>
-//                 </div>
-//                 <div class="product-details">
-//                     <div class="product-title">{props.prod_name}</div>
-//                     <p class="product-description">{props.scale}</p>
-//                 </div>
-//                 <div class="product-price">{props.price}</div>
-//                 <div class="product-quantity">
-//                     <input type="number" value="2" min="1"/>
-//                 </div>
-//                 <div class="product-removal">
-//                     <button class="remove-product">
-//                         Remove
-//                     </button>
-//                 </div>
-//                 <div class="product-line-price">25.98</div>
-//             </div>
-//         </div>
-//         )
-//     }
-// }
+
+
+
+
+
+
+//latest card temp all details
+// {/* <div>
+//         <Card style={{marginTop:"30px"}}>
+//           <CardImg top src={props.image} alt="Image does not found" style={{width:"100%",height:"200px"}}/>
+//           <CardBody>
+//             <Row>
+//                 <Col sm="12">
+//                     <CardTitle style={{textAlign:"center",fontSize:"32px"}} name="prod_name">{  props.prod_name  }</CardTitle>
+//                 </Col>
+//             </Row>
+//             <CardSubtitle style={{textAlign:"center"}} name="scale"><span className="glyphicon glyphicon-usd"></span>{props.cost} / {props.scale}</CardSubtitle>
+//             {/* <CardText style={{textAlign:"center",marginTop:"10px"}} name="cost"><span className="glyphicon glyphicon-usd"></span>{props.cost}</CardText> */}
+//             <Row>
+//             <Col sm="6">
+//                 <CardText style={{marginLeft:"20%",paddingLeft:"20px"}} name="quantity">{props.quantity} </CardText>
+//             </Col>
+//             <Col sm="6">
+//                 <input style={{borderRadius:"5px",width:"80%",paddingLeft:"20px",marginLeft:"10%",marginBottom:"10%"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(e.target.value)}}></input>
+//             </Col>
+//             </Row>
+//             <Row>
+//                 <Col sm="6">
+//                     <Button style={{}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost)}}>Add to Cart</Button>
+//                 </Col>
+//                 <Col sm="6">
+//                 <Button style={{ }} className="btn btn-danger" onClick={e=>{props.delete_from_cart(props.id,quantity,props.cost);setQuantity(0)}}>Delete from Cart</Button>
+//                 </Col>
+//             </Row>
+            
+//           </CardBody>
+//         </Card>
+//       </div> */}

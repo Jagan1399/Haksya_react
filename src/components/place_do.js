@@ -7,6 +7,7 @@ import {Place_order,Card_temp} from '../templates/post'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import {Col,Row,Container} from 'reactstrap'
+import './place_do.css'
 
 class Place_do extends Component{
     constructor(props) {
@@ -167,40 +168,44 @@ class Place_do extends Component{
         })
         const {cust_list}=this.state
         return (
-            <div>
-                <Form>
-                    <Form.Group>
-                        <Form.Label style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Customer</Form.Label>
-                        <Form.Control as="select" onChange={e=>{this.set_curr_cust(e.target.value)}} style={{maxWidth:"50%",marginLeft:"20px"}} >
-                            {
-                                this.state.cust_list.map(cust=>{
-                                return <option value={cust.id}>{cust.customer_name}</option>
-                                })
-                            }
-                        </Form.Control>
-                    </Form.Group>
-                </Form>
-                <Form.Label style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Product List</Form.Label>
-                <Container fluid>
-                    <Row>
-                    {prod_card}
-                    </Row>
-                </Container>
+            <div style={{overflow:"hidden"}}>
                 <Row>
                     <Col md="6">
-                        <p style={{marginLeft:"20px",marginTop:"20px",fontSize:"20px"}}>
+                        <Form>
+                        <Form.Group>
+                            <Form.Label style={{marginLeft:"20px" ,fontSize:"24px"}}>Customer</Form.Label>
+                            <Form.Control as="select" onChange={e=>{this.set_curr_cust(e.target.value)}} style={{maxWidth:"70%",marginLeft:"20px",fontSize:"18px",height:"40px"}} >
+                                {
+                                    this.state.cust_list.map(cust=>{
+                                    return <option value={cust.id}>{cust.customer_name}</option>
+                                    })
+                                }
+                            </Form.Control>
+                        </Form.Group>
+                        </Form>
+                    </Col>
+                    <Col md="3">
+                        <p style={{marginLeft:"20px",marginTop:"30px",fontSize:"20px"}}>
                             Total Cost = <span className="glyphicon glyphicon-usd"></span>{this.state.totalCost}
                         </p>
                     </Col>
-                    <Col md="6">
+                    <Col md="3">
                     <Button 
                         variant="outline-primary" 
-                        style={{marginTop:"20px",fontSize:"20px"}} 
+                        style={{marginTop:"20px",marginLeft:"20px",fontSize:"20px"}} 
                         onClick={e=>{this.place_order(e)}}>
                             Place Order
                     </Button>
                     </Col>
                 </Row>
+                
+                <Form.Label style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Product List</Form.Label>
+                <Container fluid style={{width:"100%",overflowY:"auto"}}>
+                    <Row style={{height:"500px"}}>
+                    {prod_card}
+                    </Row>
+                </Container>
+                
             
           </div>
         )
