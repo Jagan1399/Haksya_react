@@ -49,14 +49,14 @@ class App extends Component {
     <Router>
         <div className="mynav">
             <ReactBootStrap.Navbar collapseOnSelect expand="sm" bg="dark">
-            <ReactBootStrap.Navbar.Brand><Link onMouseEnter={this.onhover} onMouseLeave={this.onLeave} to="/"  style={{ color: '#FFF',textDecoration:'none' },linkStyle}>Haksya Cart</Link></ReactBootStrap.Navbar.Brand>
+            <ReactBootStrap.Navbar.Brand><Link onMouseEnter={this.onhover} onMouseLeave={this.onLeave} to="/"  style={{ color: '#FFF',textDecoration:'none',fontWeight:"bold" },linkStyle}>Haksya Cart</Link></ReactBootStrap.Navbar.Brand>
             <ReactBootStrap.Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <ReactBootStrap.Navbar.Collapse id="responsive-navbar-nav">
                 <ReactBootStrap.Nav className="mr-auto">
                 <ReactBootStrap.Nav.Link><Link  to="/add_items" onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}} style={{ color: '#FFF',textDecoration:'none' }}>Add Items</Link></ReactBootStrap.Nav.Link>
                 <ReactBootStrap.Nav.Link><Link  to="/add_cust" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Add Customer</Link></ReactBootStrap.Nav.Link>
                 <ReactBootStrap.Nav.Link><Link  to="/add_sellers" onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}} style={{ color: '#FFF',textDecoration:'none' }}>Add Sellers</Link></ReactBootStrap.Nav.Link>
-                <ReactBootStrap.Nav.Link><Link  to="/place_do" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Place DO</Link></ReactBootStrap.Nav.Link>
+                {/* <ReactBootStrap.Nav.Link><Link  to="/place_do" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Place DO</Link></ReactBootStrap.Nav.Link> */}
                 <ReactBootStrap.Nav.Link><Link  to="/order_history" style={{ color: '#FFF',textDecoration:'none' }} onMouseOver={e=>{e.target.style.color='#86cbdd'}} onMouseOut={e=>{e.target.style.color='white'}}>Order History</Link></ReactBootStrap.Nav.Link>
             </ReactBootStrap.Nav>
     
@@ -64,7 +64,7 @@ class App extends Component {
             </ReactBootStrap.Navbar>
             <Switch>
                 <Route exact path="/">
-                    <Home />
+                    <PlaceDO />
                 </Route>
                 <Route path="/add_items">
                     <AddItems />
@@ -78,9 +78,9 @@ class App extends Component {
                 <Route path="/order_history">
                     <Order />
                 </Route>
-                <Route path="/place_do">
+                {/* <Route path="/place_do">
                     <PlaceDO />
-                </Route>
+                </Route> */}
             </Switch>
         </div>
     </Router>
