@@ -42,6 +42,7 @@ export default class Invoice extends Component {
 
     print_handler()
     {
+        console.log("wgeuowgeofu")
         window.print()
     }
     
@@ -56,7 +57,7 @@ export default class Invoice extends Component {
 
             <div class="toolbar hidden-print">
                 <div class="text-right">
-                    <input class="btn btn-info" type="button" onclick={e=>{window.print()}} value="PRINT" /> 
+                    <button className="btn btn-info" onClick={e=>{this.print_handler()}}>Print</button>
                 </div>
                 <div class="toolbar hidden-print">
                     <a href="">Edit DO</a>
@@ -100,7 +101,7 @@ export default class Invoice extends Component {
                             </div>
                         </div>
 
-                        <Table striped borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
+                        <Table striped borderless size="sm" style={{maxWidth:"80%",textAlign:"center"}}>
                             <thead>
                                 <tr>
                                     <th style={{textAlign:"center"}}>NO</th>
