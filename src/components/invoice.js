@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './invoice.css'
+import Table from 'react-bootstrap/Table'
 
 
 
@@ -49,6 +50,7 @@ export default class Invoice extends Component {
         const {order}=this.state
         // const customer_name=order.customer.customer_name
         return (
+        
         <div>
         <div id="invoice">
 
@@ -97,11 +99,11 @@ export default class Invoice extends Component {
                             </div>
                         </div>
 
-                        <table id="dtBasicExample" class="table table-striped table-bordered table-sm">
+                        <Table striped hover borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
                             <thead>
                                 <tr>
-                                    <th>NO</th>
-                                    <th>ITEM NAME</th>
+                                    <th>Product ID</th>
+                                    <th>Product NAME</th>
                                     <th>QUANTITY</th>
                                 </tr>
                             </thead>
@@ -109,16 +111,16 @@ export default class Invoice extends Component {
                                 {
                                     this.state.order.order_items.map((prod,i)=>{
                                    return( <tr>
-                                        <td class="no">{prod.id}</td>
-                                        <td class="text-left">
+                                        <td>{prod.id}</td>
+                                        <td>
                                             {prod.product.product_name}</td>
-                                        <td class="qty">{prod.product.quantity} {prod.product.category}</td>
+                                        <td>{prod.product.quantity} {prod.product.category}</td>
                                     
                                     </tr>)
                                     })
                                 } 
                             </tbody>
-                        </table>
+                            </Table>
 
                     </main>
                     <table style={{width:"100%"}}>

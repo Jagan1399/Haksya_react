@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import {Col,Row,Container} from 'reactstrap'
 import './place_do.css'
-
+import { Redirect } from "react-router-dom";
 class Place_do extends Component{
     constructor(props) {
         super(props)
@@ -17,6 +17,7 @@ class Place_do extends Component{
         this.set_curr_cust=this.set_curr_cust.bind(this)
         this.remove_from_cart=this.remove_from_cart.bind(this)
         this.state = {
+            order_id:'',
             order_list:[],
             product_list:[],
             cust_list:[],
@@ -28,7 +29,8 @@ class Place_do extends Component{
                 total_price:0
             },
             cust_change:false,
-            totalCost:0
+            totalCost:0,
+            redirect: null
         }
     }
 
@@ -113,7 +115,7 @@ class Place_do extends Component{
             temp_cart,
             totalCost
         })
-        console.log(temp_cart)
+        // console.log(temp_cart)
     }
 
     place_order(event)
@@ -128,6 +130,8 @@ class Place_do extends Component{
         .then(res=>{res.json()})
         .then(resd=>{
             console.log(resd.success)
+            this.state.order_id = resd.id
+            console.log(this.state.order_id)
             let {curr_cust_id,temp_cart}=this.state
             curr_cust_id=null
             temp_cart.customer_id=curr_cust_id
@@ -138,8 +142,7 @@ class Place_do extends Component{
                 temp_cart,
                 totalCost:0
             })
-            
-
+            this.setState({ redirect: "/order/"+ resd.id});
         })
         .catch(err=>console.log(err))
     }
@@ -147,7 +150,12 @@ class Place_do extends Component{
 
     
     render()
-    {
+    {   
+        if (this.state.redirect) {
+
+            return <Redirect to={this.state.redirect} />
+          
+        }
         let prod_card=this.state.product_list.map(prod=>{
             return (
                 <Col sm="3">
