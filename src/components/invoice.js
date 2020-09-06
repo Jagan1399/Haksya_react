@@ -99,7 +99,6 @@ export default class Invoice extends Component {
                             </div>
                         </div>
 
-<<<<<<< HEAD
                         <Table striped borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
                             <thead>
                                 <tr>
@@ -107,14 +106,6 @@ export default class Invoice extends Component {
                                     <th style={{textAlign:"center"}}>ITEM NAME</th>
                                     <th style={{textAlign:"center"}}>QUANTITY</th>
                                     <th style={{textAlign:"center"}}>Cost</th>
-=======
-                        <Table striped hover borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
-                            <thead>
-                                <tr>
-                                    <th>Product ID</th>
-                                    <th>Product NAME</th>
-                                    <th>QUANTITY</th>
->>>>>>> 54a7adc0638634ab1629a84a0af3f3059a3d9c2d
                                 </tr>
                             </thead>
                             <tbody style={{}}>
@@ -122,16 +113,9 @@ export default class Invoice extends Component {
                                     this.state.order.order_items.map((prod,i)=>{
                                    return( <tr>
                                         <td>{prod.id}</td>
-<<<<<<< HEAD
                                         <td>{prod.product.product_name}</td>
                                         <td>{prod.product.quantity} {prod.product.category}</td>
                                         <td>${prod.product.cost} * {prod.product.quantity}</td>
-=======
-                                        <td>
-                                            {prod.product.product_name}</td>
-                                        <td>{prod.product.quantity} {prod.product.category}</td>
-                                    
->>>>>>> 54a7adc0638634ab1629a84a0af3f3059a3d9c2d
                                     </tr>)
                                     })
                                 } 

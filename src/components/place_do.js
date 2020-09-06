@@ -129,13 +129,9 @@ class Place_do extends Component{
         })
         .then(res=>{res.json()})
         .then(resd=>{
-<<<<<<< HEAD
-            console.log(resd)
-=======
             console.log(resd.success)
             this.state.order_id = resd.id
             console.log(this.state.order_id)
->>>>>>> 54a7adc0638634ab1629a84a0af3f3059a3d9c2d
             let {curr_cust_id,temp_cart}=this.state
             curr_cust_id=null
             temp_cart.customer_id=curr_cust_id
