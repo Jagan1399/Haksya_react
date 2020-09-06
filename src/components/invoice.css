@@ -78,7 +78,7 @@
         .invoice table td,
         .invoice table th {
             padding: 15px;
-            background: #eee;
+            /* background: #eee; */
             border-bottom: 1px solid #fff
         }
         
@@ -104,13 +104,13 @@
         }
         
         .invoice table .no {
-            color: #fff;
+            /* color: #fff; */
             font-size: 1.6em;
             background: #3989c6
         }
         
         .invoice table .unit {
-            background: #ddd
+            /* background: #ddd */
         }
         
         .invoice table .total {

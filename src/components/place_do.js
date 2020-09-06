@@ -127,7 +127,7 @@ class Place_do extends Component{
         })
         .then(res=>{res.json()})
         .then(resd=>{
-            console.log(resd.success)
+            console.log(resd)
             let {curr_cust_id,temp_cart}=this.state
             curr_cust_id=null
             temp_cart.customer_id=curr_cust_id
@@ -194,9 +194,9 @@ class Place_do extends Component{
                         variant="outline-primary" 
                         style={{marginTop:"20px",marginLeft:"20px",fontSize:"20px"}} 
                         onClick={e=>{this.place_order(e)}}>
-                        <a href='/order/1' style={{color:""}}>
+                        {/* <a href='/order/1' style={{color:""}}> */}
                             Place Order
-                        </a>
+                        {/* </a> */}
                     </Button>
                     </Col>
                 </Row>

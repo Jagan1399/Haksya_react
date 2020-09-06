@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './invoice.css'
+import Table from 'react-bootstrap/Table'
 
 
 
@@ -97,28 +98,29 @@ export default class Invoice extends Component {
                             </div>
                         </div>
 
-                        <table id="dtBasicExample" class="table table-striped table-bordered table-sm">
+                        <Table striped borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
                             <thead>
                                 <tr>
-                                    <th>NO</th>
-                                    <th>ITEM NAME</th>
-                                    <th>QUANTITY</th>
+                                    <th style={{textAlign:"center"}}>NO</th>
+                                    <th style={{textAlign:"center"}}>ITEM NAME</th>
+                                    <th style={{textAlign:"center"}}>QUANTITY</th>
+                                    <th style={{textAlign:"center"}}>Cost</th>
                                 </tr>
                             </thead>
                             <tbody style={{}}>
                                 {
                                     this.state.order.order_items.map((prod,i)=>{
                                    return( <tr>
-                                        <td class="no">{prod.id}</td>
-                                        <td class="text-left">
-                                            {prod.product.product_name}</td>
-                                        <td class="qty">{prod.product.quantity} {prod.product.category}</td>
-                                    
+                                        <td>{prod.id}</td>
+                                        <td>{prod.product.product_name}</td>
+                                        <td>{prod.product.quantity} {prod.product.category}</td>
+                                        <td>${prod.product.cost} * {prod.product.quantity}</td>
                                     </tr>)
                                     })
                                 } 
                             </tbody>
-                        </table>
+                        </Table>
+                        <p className="invoice-id" style={{float:"right",marginRight:"25%",fontWeight:"bold",fontSize:"24px"}}>Total Cost = <span style={{color:"#3989c6",fontSize:"24px"}}>${this.state.order.total_price}</span></p>
 
                     </main>
                     <table style={{width:"100%"}}>
