@@ -108,11 +108,7 @@
             font-size: 1.6em;
             background: #3989c6
         }
-        
-        .invoice table .unit {
-            /* background: #ddd */
-        }
-        
+       
         .invoice table .total {
             background: #3989c6;
             color: #fff

@@ -7,7 +7,7 @@ import Table from 'react-bootstrap/Table'
 export default class Invoice extends Component {
     constructor(props) {
         super(props)
-    
+        this.componentDidMount=this.componentDidMount.bind(this)
         this.state = {
             order:{
                 customer:{
@@ -30,6 +30,7 @@ export default class Invoice extends Component {
         fetch('http://178.128.90.226:8000/order/'+order_id)
         .then(res=>{return res.json()})
         .then(resd=>{
+            console.log(resd)
             order=resd
             this.setState({
                 order,

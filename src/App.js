@@ -64,8 +64,10 @@ class App extends Component {
             </ReactBootStrap.Navbar.Collapse>
             </ReactBootStrap.Navbar>
             <Switch>
-                <Route exact path="/">
-                    <PlaceDO />
+                <Route exact 
+                    path="/" 
+                    render={props=><PlaceDO {...props}/>}
+                >
                 </Route>
                 <Route path="/add_items">
                     <AddItems />
@@ -83,6 +85,10 @@ class App extends Component {
                     path="/order/:order_id"
                     render={props=><Invoice {...props}/>}
                 >    
+                </Route>
+                <Route 
+                    path="/cart/:id" 
+                    render={props=><PlaceDO {...props}/>}>
                 </Route>
                 {/* <Route path="/place_do">
                     <PlaceDO />

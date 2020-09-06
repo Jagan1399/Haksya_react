@@ -16,6 +16,7 @@ class Place_do extends Component{
         this.place_order=this.place_order.bind(this)
         this.set_curr_cust=this.set_curr_cust.bind(this)
         this.remove_from_cart=this.remove_from_cart.bind(this)
+        this.componentDidMount=this.componentDidMount.bind(this)
         this.state = {
             order_id:'',
             order_list:[],
@@ -30,21 +31,44 @@ class Place_do extends Component{
             },
             cust_change:false,
             totalCost:0,
-            redirect: null
+            redirect: null,
+            cart_id:null
         }
     }
 
     componentDidMount()
     {
-        fetch('http://178.128.90.226:8000/products')
-       .then(res=>{return res.json()})
-       .then(resData=>{
-           console.log(resData)
-           this.setState({
-               product_list:resData,
-           })
-           this.get_cust_list()
-       })
+        // console.log(this.props.match.params)
+        let {cart_id}=this.state
+        cart_id=this.props.match.params?this.props.match.params:null
+        console.log(cart_id)
+        if(Object.entries(cart_id).length==0)
+        {
+            console.log('empty')
+            fetch('http://178.128.90.226:8000/products')
+            .then(res=>{return res.json()})
+            .then(resData=>{
+                console.log(resData)
+                this.setState({
+                    product_list:resData,
+                })
+                this.get_cust_list()
+            })
+        }
+        else if(Object.entries(cart_id).length!==0)
+        {
+            console.log('not empty')
+            console.log(cart_id.id)
+            fetch('http://178.128.90.226:8000/order/'+cart_id.id)
+            .then(res=>{return res.json()})
+            .then(resData=>{
+                console.log(resData)
+                // this.setState({
+                //     product_list:resData,
+                // })
+                // this.get_cust_list()
+            })
+        }
     }
 
     get_cust_list()
