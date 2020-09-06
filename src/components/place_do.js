@@ -194,7 +194,7 @@ class Place_do extends Component{
                         variant="outline-primary" 
                         style={{marginTop:"20px",marginLeft:"20px",fontSize:"20px"}} 
                         onClick={e=>{this.place_order(e)}}>
-                        <a href='/invoice/1' style={{color:""}}>
+                        <a href='/order/1' style={{color:""}}>
                             Place Order
                         </a>
                     </Button>

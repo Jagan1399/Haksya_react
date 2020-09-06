@@ -80,7 +80,7 @@ class App extends Component {
                     <Order />
                 </Route>
                 <Route 
-                    path="/invoice/:order_id"
+                    path="/order/:order_id"
                     render={props=><Invoice {...props}/>}
                 >    
                 </Route>
