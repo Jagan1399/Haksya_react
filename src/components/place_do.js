@@ -127,9 +127,9 @@ class Place_do extends Component{
             method:"POST",
             body:JSON.stringify(this.state.temp_cart)
         })
-        .then(res=>{res.json()})
+        .then(res=>{return res.json()})
         .then(resd=>{
-            console.log(resd.success)
+            console.log(resd)
             this.state.order_id = resd.id
             console.log(this.state.order_id)
             let {curr_cust_id,temp_cart}=this.state

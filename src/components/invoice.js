@@ -58,11 +58,12 @@ export default class Invoice extends Component {
                 <div class="text-right">
                     <input class="btn btn-info" type="button" onclick={e=>{window.print()}} value="PRINT" /> 
                 </div>
+                <div class="toolbar hidden-print">
+                    <a href="">Edit DO</a>
+                </div>
                 <hr></hr>
             </div>
-            <div class="toolbar hidden-print">
-                <a href="">Edit DO</a>
-            </div>
+            
 
             <div id="printableArea" class="invoice overflow-auto print-container">
                 <div style={{minWidth: "600px"}}>
