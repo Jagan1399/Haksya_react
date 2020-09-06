@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './invoice.css'
 
+
+
 export default class Invoice extends Component {
     constructor(props) {
         super(props)
@@ -52,7 +54,7 @@ export default class Invoice extends Component {
 
             <div class="toolbar hidden-print">
                 <div class="text-right">
-                    <input class="btn btn-info" type="button" onclick={this.print_handler} value="PRINT" /> 
+                    <input class="btn btn-info" type="button" onclick={e=>{window.print()}} value="PRINT" /> 
                 </div>
                 <hr></hr>
             </div>
@@ -66,7 +68,7 @@ export default class Invoice extends Component {
 
                         <div class="row">
                             <div class="col">
-                                <img src="" style={{width:"150px"}}></img>
+                                <img src={process.env.PUBLIC_URL+'/img/LOGO.png'} style={{width:"150px"}}></img>
                             </div>
                             <div class="col company-details">
                                 <h2 class="name">
@@ -103,7 +105,7 @@ export default class Invoice extends Component {
                                     <th>QUANTITY</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style={{}}>
                                 {
                                     this.state.order.order_items.map((prod,i)=>{
                                    return( <tr>
@@ -114,17 +116,9 @@ export default class Invoice extends Component {
                                     
                                     </tr>)
                                     })
-                                }
-
-                                
-                                
-
+                                } 
                             </tbody>
-
-
-
                         </table>
-
 
                     </main>
                     <table style={{width:"100%"}}>
