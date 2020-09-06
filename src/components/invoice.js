@@ -120,12 +120,8 @@ export default class Invoice extends Component {
                                     })
                                 } 
                             </tbody>
-<<<<<<< HEAD
                         </Table>
                         <p className="invoice-id" style={{float:"right",marginRight:"25%",fontWeight:"bold",fontSize:"24px"}}>Total Cost = <span style={{color:"#3989c6",fontSize:"24px"}}>${this.state.order.total_price}</span></p>
-=======
-                            </Table>
->>>>>>> 54a7adc0638634ab1629a84a0af3f3059a3d9c2d
 
                     </main>
                     <table style={{width:"100%"}}>
