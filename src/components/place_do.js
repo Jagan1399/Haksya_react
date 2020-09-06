@@ -119,7 +119,7 @@ class Place_do extends Component{
     }
 
     place_order(event)
-    {
+    {   if (this.state.temp_cart.customer_id){
         fetch('http://178.128.90.226:8000/placeorder',{
             headers:{
                 'Content-Type':"application/json"
@@ -146,6 +146,10 @@ class Place_do extends Component{
         })
         .catch(err=>console.log(err))
     }
+else    {
+alert('select customer');
+}
+}
 
 
     
