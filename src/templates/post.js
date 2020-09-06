@@ -122,9 +122,13 @@ export const Place_order=(props)=>{
 export const Card_temp=(props)=>{
     // console.log(props.cost)
     // console.log(props.quantity)
-    // console.log(props.image)
-    let [quantity,setQuantity]=useState(0)
+    console.log(props.cart_quan)
+    let [quantity,setQuantity]=useState(props.cart_quan)
     let [checked,setChecked]=useState(false)
+    // if(props.cart_quan)
+    // {
+    //     setQuantity(props.cart_quan)
+    // }
     return (
         <div>
         <Card style={{marginTop:"30px"}}>

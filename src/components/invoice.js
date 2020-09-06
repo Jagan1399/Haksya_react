@@ -61,7 +61,7 @@ export default class Invoice extends Component {
                     <button className="btn btn-info" onClick={e=>{this.print_handler()}}>Print</button>
                 </div>
                 <div class="toolbar hidden-print">
-                    <a href="">Edit DO</a>
+                    <a href={'/cart/'+this.state.order_id}>Edit DO</a>
                 </div>
                 <hr></hr>
             </div>

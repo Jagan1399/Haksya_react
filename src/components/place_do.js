@@ -13,6 +13,7 @@ class Place_do extends Component{
     constructor(props) {
         super(props)
         this.add_to_cart=this.add_to_cart.bind(this)
+        this.render=this.render.bind(this)
         this.place_order=this.place_order.bind(this)
         this.set_curr_cust=this.set_curr_cust.bind(this)
         this.remove_from_cart=this.remove_from_cart.bind(this)
@@ -23,7 +24,7 @@ class Place_do extends Component{
             product_list:[],
             cust_list:[],
             curr_cust:'',
-            curr_cust_id:0,
+            curr_cust_id:null,
             temp_cart:{
                 customer_id:'',
                 products:[],
@@ -32,7 +33,8 @@ class Place_do extends Component{
             cust_change:false,
             totalCost:0,
             redirect: null,
-            cart_id:null
+            cart_id:null,
+            order_id:null
         }
     }
 
@@ -42,20 +44,17 @@ class Place_do extends Component{
         let {cart_id}=this.state
         cart_id=this.props.match.params?this.props.match.params:null
         console.log(cart_id)
-        if(Object.entries(cart_id).length==0)
-        {
-            console.log('empty')
-            fetch('http://178.128.90.226:8000/products')
-            .then(res=>{return res.json()})
-            .then(resData=>{
-                console.log(resData)
-                this.setState({
-                    product_list:resData,
-                })
-                this.get_cust_list()
+            
+        fetch('http://178.128.90.226:8000/products')
+        .then(res=>{return res.json()})
+        .then(resData=>{
+            // console.log(resData)
+            this.setState({
+                product_list:resData,
             })
-        }
-        else if(Object.entries(cart_id).length!==0)
+            this.get_cust_list()
+        })
+        if(Object.entries(cart_id).length!==0)
         {
             console.log('not empty')
             console.log(cart_id.id)
@@ -63,10 +62,21 @@ class Place_do extends Component{
             .then(res=>{return res.json()})
             .then(resData=>{
                 console.log(resData)
-                // this.setState({
-                //     product_list:resData,
-                // })
-                // this.get_cust_list()
+                let {temp_cart,totalCost,curr_cust_id}=this.state
+                temp_cart.customer_id=resData.customer.id
+                curr_cust_id=resData.customer.id
+                temp_cart.total_price=resData.total_price
+                totalCost=resData.total_price
+                temp_cart.products=resData.order_items.map(prod=>{
+                    return {quantity:prod.quantity,product_id:prod.product.id}
+                })
+                this.setState({
+                    temp_cart,
+                    order_id:cart_id.id,
+                    totalCost,
+                    curr_cust_id
+                })
+                console.log(temp_cart)
             })
         }
     }
@@ -143,7 +153,7 @@ class Place_do extends Component{
     }
 
     place_order(event)
-    {   if (this.state.temp_cart.customer_id){
+    {   if (this.state.temp_cart.customer_id && !this.state.order_id){
         fetch('http://178.128.90.226:8000/placeorder',{
             headers:{
                 'Content-Type':"application/json"
@@ -170,6 +180,36 @@ class Place_do extends Component{
         })
         .catch(err=>console.log(err))
     }
+    else if (this.state.temp_cart.customer_id && this.state.order_id){
+        fetch('http://178.128.90.226:8000/order/'+this.state.order_id,{
+            headers:{
+                'Content-Type':"application/json"
+            },
+            method:"PUT",
+            body:JSON.stringify(this.state.temp_cart)
+        })
+        .then(res=>{return res.json()})
+        .then(resd=>{
+            console.log(resd)
+            this.state.order_id = resd.id
+            console.log(this.state.order_id)
+            let {curr_cust_id,temp_cart}=this.state
+            curr_cust_id=null
+            temp_cart.customer_id=curr_cust_id
+            temp_cart.products=[]
+            temp_cart.total_price=0
+            this.setState({
+                curr_cust_id,
+                temp_cart,
+                totalCost:0
+            })
+            this.setState({ redirect: "/order/"+ resd.id});
+        })
+        .catch(err=>console.log(err))
+    }
+
+    
+
 else    {
 alert('select customer');
 }
@@ -184,7 +224,22 @@ alert('select customer');
             return <Redirect to={this.state.redirect} />
           
         }
-        let prod_card=this.state.product_list.map(prod=>{
+        let cart_prod_quan
+        let prod_card=this.state.product_list.map((prod,i)=>{
+            this.state.temp_cart.products.map(produ=>{
+                if(produ.product_id==prod.id)
+                {
+                    console.log(prod.id)
+                    cart_prod_quan=produ.quantity
+                    console.log(cart_prod_quan)
+                }
+                else if(produ.product_id!==prod.id){
+                    // console.log("Inside null")
+                    cart_prod_quan=null
+                }
+            })
+            // console.log("product list id"+ prod.id)
+            // console.log(this.state.temp_cart.products[i]['product_id'])
             return (
                 <Col sm="3">
                 <Card_temp 
@@ -192,7 +247,11 @@ alert('select customer');
                             customer_name={this.state.curr_cust}
                             prod_name={prod.product_name}
                             scale={prod.scale}
-                            quantity={prod.quantity}
+                            avai_quantity={prod.quantity}
+                            cart_quan={cart_prod_quan}
+                            // cart_quan={this.state.temp_cart.products[i]['product_id']==prod.id? this.state.temp_cart.products[i].quantity : null }
+                            // cart_quan={this.state.temp_cart.products.map(produ=>{if(produ.product_id==prod.id){return produ.quantity}else{return null}})}
+                            // cart_quan={this.state.temp_cart.products.reduce((produ)=>{return produ.product_id == prod.id ? produ.quantity: null})}
                             add_to_cart={this.add_to_cart}
                             has_cust_change={this.state.cust_change}
                             cost={prod.cost}
@@ -210,7 +269,9 @@ alert('select customer');
                         <Form>
                         <Form.Group>
                             <Form.Label style={{marginLeft:"20px" ,fontSize:"24px"}}>Customer</Form.Label>
-                            <Form.Control as="select" onChange={e=>{this.set_curr_cust(e.target.value)}} style={{maxWidth:"70%",marginLeft:"20px",fontSize:"18px",height:"40px"}} >
+                            <Form.Control as="select" onChange={e=>{this.set_curr_cust(e.target.value)}} style={{maxWidth:"70%",marginLeft:"20px",fontSize:"18px",height:"40px"}} 
+                                value={this.state.curr_cust_id?this.state.curr_cust_id:null}
+                            >
                                 {
                                     this.state.cust_list.map(cust=>{
                                     return <option value={cust.id}>{cust.customer_name}</option>
