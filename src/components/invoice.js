@@ -50,6 +50,7 @@ export default class Invoice extends Component {
         const {order}=this.state
         // const customer_name=order.customer.customer_name
         return (
+        
         <div>
         <div id="invoice">
 
@@ -98,6 +99,7 @@ export default class Invoice extends Component {
                             </div>
                         </div>
 
+<<<<<<< HEAD
                         <Table striped borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
                             <thead>
                                 <tr>
@@ -105,6 +107,14 @@ export default class Invoice extends Component {
                                     <th style={{textAlign:"center"}}>ITEM NAME</th>
                                     <th style={{textAlign:"center"}}>QUANTITY</th>
                                     <th style={{textAlign:"center"}}>Cost</th>
+=======
+                        <Table striped hover borderless size="sm" style={{maxWidth:"60%",textAlign:"center"}}>
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product NAME</th>
+                                    <th>QUANTITY</th>
+>>>>>>> 54a7adc0638634ab1629a84a0af3f3059a3d9c2d
                                 </tr>
                             </thead>
                             <tbody style={{}}>
@@ -112,15 +122,26 @@ export default class Invoice extends Component {
                                     this.state.order.order_items.map((prod,i)=>{
                                    return( <tr>
                                         <td>{prod.id}</td>
+<<<<<<< HEAD
                                         <td>{prod.product.product_name}</td>
                                         <td>{prod.product.quantity} {prod.product.category}</td>
                                         <td>${prod.product.cost} * {prod.product.quantity}</td>
+=======
+                                        <td>
+                                            {prod.product.product_name}</td>
+                                        <td>{prod.product.quantity} {prod.product.category}</td>
+                                    
+>>>>>>> 54a7adc0638634ab1629a84a0af3f3059a3d9c2d
                                     </tr>)
                                     })
                                 } 
                             </tbody>
+<<<<<<< HEAD
                         </Table>
                         <p className="invoice-id" style={{float:"right",marginRight:"25%",fontWeight:"bold",fontSize:"24px"}}>Total Cost = <span style={{color:"#3989c6",fontSize:"24px"}}>${this.state.order.total_price}</span></p>
+=======
+                            </Table>
+>>>>>>> 54a7adc0638634ab1629a84a0af3f3059a3d9c2d
 
                     </main>
                     <table style={{width:"100%"}}>
