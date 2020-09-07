@@ -31,8 +31,8 @@ class Place_do extends Component{
                 total_price:0
             },
             cust_change:false,
-            totalCost:0,
             redirect: null,
+            totalCost:0,
             cart_id:null,
             order_id:null
         }
@@ -122,19 +122,58 @@ class Place_do extends Component{
         // console.log(id+" "+name+" "+scale+" "+avai_quan+" "+req_quan+" "+is_check+" ")
         // console.log(this)
         let {temp_cart,totalCost}=this.state
+        let Is_same_prod=false
         // console.log(this.state.curr_cust_id)
-            // const product={id:id,product_name:name,scale:scale,quantity:avai_quan,req_quan:req_quan}
-            const product={product_id:id,quantity:req_quan}
-            temp_cart.customer_id=this.state.curr_cust_id
+        // let product={id:id,product_name:name,scale:scale,quantity:avai_quan,req_quan:req_quan}
+        temp_cart.customer_id=this.state.curr_cust_id
+        totalCost=temp_cart.total_price
+        let product={product_id:id,quantity:parseInt(req_quan),order_item_cost:(req_quan*cost)}
+        // console.log(product)
+        temp_cart.products.forEach(prod=>{
+            if(prod.product_id==id)
+            {
+                product.quantity=parseInt(product.quantity)+parseInt(prod.quantity)
+                totalCost+=product.order_item_cost
+                product.order_item_cost+=prod.order_item_cost
+                
+                Is_same_prod=true
+                // console.log(Is_same_prod)
+            }
+            else{
+                product=product
+            }
+        })
+        // console.log(product)
+        if(Is_same_prod)
+        {
+            // console.log("insidefnpwep")
+            temp_cart.products=temp_cart.products.map(prod=>{
+                if(prod.product_id==id)
+                {
+                    return {...product}
+                    // console.log(prod)
+                }
+                else{
+                    return {...prod}
+                }
+            })
+            product={}
+        }
+        else if(!Is_same_prod)
+        {
+            // console.log(Is_same_prod)
+            // console.log(product)
+            totalCost+=product.order_item_cost  
+            // console.log(totalCost) 
             temp_cart.products.push(product)
-            totalCost=totalCost+(cost*req_quan)
-            temp_cart.total_price=totalCost
-           this.setState({
-              temp_cart,
-              cust_change:false,
-              totalCost
-           })
-      
+            product={}
+            // temp_cart.products.forEach(prod=>{temp_cart.total_price+=prod.order_item_cost})
+        }
+        temp_cart.total_price=totalCost
+        this.setState({
+            temp_cart,
+            cust_change:false,
+         })
         console.log(temp_cart)
         // console.log(totalCost)
     }
@@ -142,14 +181,23 @@ class Place_do extends Component{
     remove_from_cart(id,req_quan,cost)
     {   
         let {temp_cart,totalCost}=this.state
+        const curr_product=[...this.state.temp_cart.products]
+        temp_cart.products.forEach(prod=>
+            {
+                if(prod.product_id==id)
+                {
+                    temp_cart.total_price-=prod.order_item_cost
+                    totalCost=temp_cart.total_price
+                }
+            }
+        )
         temp_cart.products=temp_cart.products.filter(prod=>prod.product_id!==id)
-        totalCost=totalCost-(req_quan*cost)
-        temp_cart.total_price=totalCost
+        
         this.setState({
             temp_cart,
             totalCost
         })
-        // console.log(temp_cart)
+        console.log(temp_cart)
     }
 
     place_order(event)
@@ -226,19 +274,19 @@ alert('select customer');
         }
         let cart_prod_quan
         let prod_card=this.state.product_list.map((prod,i)=>{
-            this.state.temp_cart.products.map(produ=>{
-                if(produ.product_id==prod.id)
-                {
-                    console.log(prod.id)
-                    cart_prod_quan=produ.quantity
-                    console.log(cart_prod_quan)
-                }
-                else if(produ.product_id!==prod.id){
-                    // console.log("Inside null")
-                    cart_prod_quan=null
-                }
-            })
-            // console.log("product list id"+ prod.id)
+            // console.log("Product id "+prod.id)
+            // this.state.temp_cart.products.map((produ,j)=>{
+            //     if(produ.product_id==prod.id)
+            //     {
+                    
+            //         cart_prod_quan=produ.quantity
+            //         // console.log(cart_prod_quan)
+            //     }
+            //     else if(produ.product_id!==prod.id){
+            //         // console.log("Inside null")
+            //         cart_prod_quan=0
+            //     }
+            // })
             // console.log(this.state.temp_cart.products[i]['product_id'])
             return (
                 <Col sm="3">
@@ -251,7 +299,7 @@ alert('select customer');
                             cart_quan={cart_prod_quan}
                             // cart_quan={this.state.temp_cart.products[i]['product_id']==prod.id? this.state.temp_cart.products[i].quantity : null }
                             // cart_quan={this.state.temp_cart.products.map(produ=>{if(produ.product_id==prod.id){return produ.quantity}else{return null}})}
-                            // cart_quan={this.state.temp_cart.products.reduce((produ)=>{return produ.product_id == prod.id ? produ.quantity: null})}
+                            // cart_quan={ this.state.temp_cart.products.reduce((accu,curr_prod)=>{return curr_prod.product_id == prod.id ? curr_prod.quantity: null},0)}
                             add_to_cart={this.add_to_cart}
                             has_cust_change={this.state.cust_change}
                             cost={prod.cost}
@@ -283,7 +331,7 @@ alert('select customer');
                     </Col>
                     <Col md="3">
                         <p style={{marginLeft:"20px",marginTop:"30px",fontSize:"20px"}}>
-                            Total Cost = <span className="glyphicon glyphicon-usd"></span>{this.state.totalCost}
+                            Total Cost = <span className="glyphicon glyphicon-usd"></span>{this.state.temp_cart.total_price}
                         </p>
                     </Col>
                     <Col md="3">

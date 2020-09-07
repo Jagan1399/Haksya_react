@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import './invoice.css'
 import Table from 'react-bootstrap/Table'
+import {
+    Link
+  } from "react-router-dom";
 
 
 
@@ -61,7 +64,8 @@ export default class Invoice extends Component {
                     <button className="btn btn-info" onClick={e=>{this.print_handler()}}>Print</button>
                 </div>
                 <div class="toolbar hidden-print">
-                    <a href={'/cart/'+this.state.order_id}>Edit DO</a>
+                    {/* <a href={'/cart/'+this.state.order_id}>Edit DO</a> */}
+                    <Link style={{textDecoration:"none"}} to={`/cart/${this.state.order_id}`}>Edit DO</Link>
                 </div>
                 <hr></hr>
             </div>
