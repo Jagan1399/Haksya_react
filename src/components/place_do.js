@@ -48,7 +48,7 @@ class Place_do extends Component{
         fetch('http://178.128.90.226:8000/products')
         .then(res=>{return res.json()})
         .then(resData=>{
-            // console.log(resData)
+            console.log(resData)
             this.setState({
                 product_list:resData,
             })
@@ -300,6 +300,11 @@ alert('select customer');
                             // cart_quan={this.state.temp_cart.products[i]['product_id']==prod.id? this.state.temp_cart.products[i].quantity : null }
                             // cart_quan={this.state.temp_cart.products.map(produ=>{if(produ.product_id==prod.id){return produ.quantity}else{return null}})}
                             // cart_quan={ this.state.temp_cart.products.reduce((accu,curr_prod)=>{return curr_prod.product_id == prod.id ? curr_prod.quantity: null},0)}
+                            cart_quan={
+                                this.state.temp_cart.products.reduce((init,cart_prod)=>{
+                                    return cart_prod.product_id==prod.id ? cart_prod.quantity : init
+                                },null)
+                            }
                             add_to_cart={this.add_to_cart}
                             has_cust_change={this.state.cust_change}
                             cost={prod.cost}

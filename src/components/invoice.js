@@ -121,8 +121,8 @@ export default class Invoice extends Component {
                                    return( <tr>
                                         <td>{prod.id}</td>
                                         <td>{prod.product.product_name}</td>
-                                        <td>{prod.product.quantity} {prod.product.category}</td>
-                                        <td>${prod.product.cost} * {prod.product.quantity}</td>
+                                        <td>{prod.quantity} {prod.product.category}</td>
+                                        <td>${prod.product.cost} * {prod.quantity}</td>
                                     </tr>)
                                     })
                                 } 
