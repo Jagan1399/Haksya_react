@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { render } from '@testing-library/react'
 import ReactDOM from 'react-dom'
 import {Col,Row,Container} from 'reactstrap'
@@ -65,9 +65,9 @@ export const Customer=(props)=>{
             <td contentEditable={props.can_Edit ? true:false} name="address" onInput={e=>{setAddress(e.target.innerHTML)}} >{props.address}</td>
             <td><button onClick={()=>{
                 props.delete_cust(props.id)
-            }}><span className="glyphicon glyphicon-trash"></span></button></td>
-            <td><button onClick={()=>{props.edit_prod(props.id)}}><span className="glyphicon glyphicon-pencil"></span></button></td>
-            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,cust_name,address)}}><span className="glyphicon glyphicon-ok"></span></button></td>
+            }}><DeleteIcon fontSize="large"/></button></td>
+            <td><button onClick={()=>{props.edit_prod(props.id)}}><EditIcon fontSize="large"/></button></td>
+            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,cust_name,address)}}><DoneIcon fontSize="large"/></button></td>
             </tr>
         )
     }
@@ -86,9 +86,9 @@ export const Seller_temp=(props)=>{
             <td contentEditable={props.can_Edit ? true:false} name="address" onInput={e=>{setAddress(e.target.innerHTML)}} >{props.address}</td>
             <td><button onClick={()=>{
                 props.delete_seller(props.id)
-            }}><span className="glyphicon glyphicon-trash"></span></button></td>
-            <td><button onClick={()=>{props.edit_sell_id(props.id)}}><span className="glyphicon glyphicon-pencil"></span></button></td>
-            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,seller_name,address)}}><span className="glyphicon glyphicon-ok"></span></button></td>
+            }}><DeleteIcon fontSize="large"/></button></td>
+            <td><button onClick={()=>{props.edit_sell_id(props.id)}}><EditIcon fontSize="large"/></button></td>
+            <td hidden={!props.can_Edit ? true:false}><button onClick={()=>{props.edit_handler(props.id,seller_name,address)}}><DoneIcon fontSize="large"/></button></td>
             </tr>
         )
     }
@@ -122,10 +122,16 @@ export const Place_order=(props)=>{
 export const Card_temp=(props)=>{
     // console.log(props.cost)
     // console.log(props.quantity)
+    // console.log(props.id)
     console.log(props.cart_quan)
+
     let [quantity,setQuantity]=useState(props.cart_quan)
-    // console.log(quantity)
+    console.log(quantity)
     let [checked,setChecked]=useState(false)
+    // useEffect(() => {
+    //     setQuantity(props.cart_quan)
+    //     console.log(quantity)
+    // }, [quantity])
     // if(props.cart_quan)
     // {
     //     setQuantity(props.cart_quan)

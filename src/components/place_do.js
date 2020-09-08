@@ -35,8 +35,10 @@ class Place_do extends Component{
             redirect: null,
             totalCost:0,
             cart_id:null,
-            order_id:null
+            order_id:null,
+            quantities:[]
         }
+        this.products_list=[]
     }
 
     componentDidMount()
@@ -45,16 +47,6 @@ class Place_do extends Component{
         let {cart_id}=this.state
         cart_id=this.props.match.params?this.props.match.params:null
         console.log(cart_id)
-            
-        fetch('http://178.128.90.226:8000/products')
-        .then(res=>{return res.json()})
-        .then(resData=>{
-            console.log(resData)
-            this.setState({
-                product_list:resData,
-            })
-            this.get_cust_list()
-        })
         if(Object.entries(cart_id).length!==0)
         {
             console.log('not empty')
@@ -63,23 +55,52 @@ class Place_do extends Component{
             .then(res=>{return res.json()})
             .then(resData=>{
                 console.log(resData)
-                let {temp_cart,totalCost,curr_cust_id}=this.state
+                let {temp_cart,totalCost,curr_cust_id,quantities}=this.state
                 temp_cart.customer_id=resData.customer.id
                 curr_cust_id=resData.customer.id
                 temp_cart.total_price=resData.total_price
                 totalCost=resData.total_price
-                temp_cart.products=resData.order_items.map(prod=>{
+                temp_cart.products=resData.order_items.map((prod,index)=>{
+                    quantities[index]=prod.quantity
                     return {quantity:prod.quantity,product_id:prod.product.id}
                 })
                 this.setState({
                     temp_cart,
                     order_id:cart_id.id,
                     totalCost,
-                    curr_cust_id
+                    curr_cust_id,
+                    quantities
                 })
                 console.log(temp_cart)
             })
+            .catch(err=>console.log(err))
         }
+        // else{
+            
+        //     const {temp_cart}=this.state
+        //     temp_cart.customer_id=''
+        //     temp_cart.products=[]
+        //     temp_cart.total_price=0
+        //     this.setState({
+        //         temp_cart,
+        //         order_id:null,
+        //         totalCost:0,
+        //         curr_cust_id:null,
+        //         quantities:[]
+        //     })
+        // }   
+        fetch('http://178.128.90.226:8000/products')
+        .then(res=>{return res.json()})
+        .then(resData=>{
+            console.log(resData)
+            this.products_list=resData
+            // this.setState({
+            //     product_list:resData,
+            // })
+            this.get_cust_list()
+        })
+        .catch(err=>console.log(err))
+       
     }
 
     get_cust_list()
@@ -120,6 +141,7 @@ class Place_do extends Component{
 
     add_to_cart(id,req_quan,cost)
     {   
+        console.log(typeof(req_quan)+" "+typeof(cost))
         // console.log(id+" "+name+" "+scale+" "+avai_quan+" "+req_quan+" "+is_check+" ")
         // console.log(this)
         let {temp_cart,totalCost}=this.state
@@ -128,7 +150,7 @@ class Place_do extends Component{
         // let product={id:id,product_name:name,scale:scale,quantity:avai_quan,req_quan:req_quan}
         temp_cart.customer_id=this.state.curr_cust_id
         totalCost=temp_cart.total_price
-        let product={product_id:id,quantity:parseInt(req_quan),order_item_cost:(req_quan*cost)}
+        let product={product_id:id,quantity:parseInt(req_quan),order_item_cost:((parseInt(req_quan))*cost)}
         // console.log(product)
         temp_cart.products.forEach(prod=>{
             if(prod.product_id==id)
@@ -181,6 +203,7 @@ class Place_do extends Component{
 
     remove_from_cart(id,req_quan,cost)
     {   
+        
         let {temp_cart,totalCost}=this.state
         const curr_product=[...this.state.temp_cart.products]
         temp_cart.products.forEach(prod=>
@@ -273,8 +296,8 @@ alert('select customer');
             return <Redirect to={this.state.redirect} />
           
         }
-        let cart_prod_quan
-        let prod_card=this.state.product_list.map((prod,i)=>{
+        // let cart_prod_quan
+        let prod_card=this.products_list.map((prod,i)=>{
             // console.log("Product id "+prod.id)
             // this.state.temp_cart.products.map((produ,j)=>{
             //     if(produ.product_id==prod.id)
@@ -297,15 +320,16 @@ alert('select customer');
                             prod_name={prod.product_name}
                             scale={prod.scale}
                             avai_quantity={prod.quantity}
-                            cart_quan={cart_prod_quan}
+                            // cart_quan={cart_prod_quan}
                             // cart_quan={this.state.temp_cart.products[i]['product_id']==prod.id? this.state.temp_cart.products[i].quantity : null }
                             // cart_quan={this.state.temp_cart.products.map(produ=>{if(produ.product_id==prod.id){return produ.quantity}else{return null}})}
                             // cart_quan={ this.state.temp_cart.products.reduce((accu,curr_prod)=>{return curr_prod.product_id == prod.id ? curr_prod.quantity: null},0)}
-                            cart_quan={
-                                this.state.temp_cart.products.reduce((init,cart_prod)=>{
-                                    return cart_prod.product_id==prod.id ? cart_prod.quantity : init
-                                },null)
-                            }
+                            // cart_quan={
+                            //     this.state.temp_cart.products.reduce((init,cart_prod)=>{
+                            //         return cart_prod.product_id==prod.id ? cart_prod.quantity : init
+                            //     },null)
+                            // }
+                            cart_quan={this.state.quantities[i]>0?this.state.quantities[i]:0}
                             add_to_cart={this.add_to_cart}
                             has_cust_change={this.state.cust_change}
                             cost={prod.cost}
