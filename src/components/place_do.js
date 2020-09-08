@@ -7,7 +7,8 @@ import {Place_order,Card_temp} from '../templates/post'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import {Col,Row,Container} from 'reactstrap'
-import './place_do.css'
+
+import './place_do.scss'
 import { Redirect } from "react-router-dom";
 class Place_do extends Component{
     constructor(props) {
@@ -343,11 +344,15 @@ alert('select customer');
                     <Button 
                         variant="outline-primary" 
                         style={{marginTop:"20px",marginLeft:"20px",fontSize:"20px"}} 
-                        onClick={e=>{this.place_order(e)}}>
+                        onClick={e=>{this.place_order(e)}}
+                        // className="btn third">
+                        className="place_btn"
+                    >
                         {/* <a href='/order/1' style={{color:""}}> */}
                             Place Order
                         {/* </a> */}
                     </Button>
+                    
                     </Col>
                 </Row>
                 
