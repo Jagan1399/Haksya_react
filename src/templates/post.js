@@ -126,7 +126,7 @@ export const Card_temp=(props)=>{
     console.log(props.cart_quan)
 
     let [quantity,setQuantity]=useState(props.cart_quan)
-    console.log(quantity)
+    console.log(typeof(quantity)+" "+quantity)
     let [checked,setChecked]=useState(false)
     // useEffect(() => {
     //     setQuantity(props.cart_quan)
@@ -155,7 +155,7 @@ export const Card_temp=(props)=>{
                     </Row>
                 </Col>
                 <Col sm="4">
-                    <input style={{border:"1px solid #C4C4C4",borderRadius:"4px",width:"80%",paddingLeft:"5px",marginTop:"10px"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(e.target.value)}}></input>
+                    <input style={{border:"1px solid #C4C4C4",borderRadius:"4px",width:"80%",paddingLeft:"5px",marginTop:"10px"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(parseInt(e.target.value))}}></input>
                 </Col>
             </Row>
             {/* <Row>
