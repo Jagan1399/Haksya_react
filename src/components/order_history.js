@@ -1,5 +1,12 @@
 import React,{Component} from 'react'
 // import Post from '../templates/post'
+import FilterListIcon from '@material-ui/icons/FilterList';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import './order_history.scss'
 class Order extends Component{
     constructor(props) {
@@ -34,7 +41,8 @@ class Order extends Component{
             <section class="md-ui component-data-table">
 	<header class="main-table-header">
 		<h1 class="table-header--title">Order History</h1>
-		<span class="table-header--icons"><i class="material-icons">filter_list</i><i class="material-icons">more_vert</i>
+		<span class="table-header--icons"><FilterListIcon fontSize="large"/><MoreVertIcon fontSize="large"/>
+        {/* <i class="material-icons">more_vert</i> */}
 		</span>
 	</header>
 	<div class="main-table-wrapper">
@@ -66,12 +74,14 @@ class Order extends Component{
 	<footer class="main-table-footer">
 		<span class="rows-selection">
 			<span class="rows-selection-label">Rows per page:</span>
-			<span class="rows-selection-dropdown">10<i class="material-icons">arrow_drop_down</i></span>
+			<span class="rows-selection-dropdown">10<KeyboardArrowDownIcon fontSize="large"/></span>
 		</span>
 		<span class="rows-amount">1-10 of 100</span>
 		<span class="table-pagination">
-			<i class="material-icons">keyboard_arrow_left</i>
-			<i class="material-icons">keyboard_arrow_right</i>
+            <ArrowBackIosIcon fontSize="large"/>
+            <ArrowForwardIosIcon fontSize="large"/>
+			{/* <i class="material-icons">keyboard_arrow_left</i>
+			<i class="material-icons">keyboard_arrow_right</i> */}
 		</span>
 	</footer>
 </section>
