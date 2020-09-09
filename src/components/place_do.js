@@ -3,10 +3,12 @@ import Table from 'react-bootstrap/Table'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-import {Place_order,Card_temp} from '../templates/post'
+import {Place_order,Card_Products,Card_Cart} from '../templates/post'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import {Col,Row,Container} from 'reactstrap'
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab'
 
 import './place_do.scss'
 import { Redirect } from "react-router-dom";
@@ -39,6 +41,7 @@ class Place_do extends Component{
             quantities:[]
         }
         this.products_list=[]
+        this.order=[]
     }
 
     componentDidMount()
@@ -46,15 +49,17 @@ class Place_do extends Component{
         // console.log(this.props.match.params)
         let {cart_id}=this.state
         cart_id=this.props.match.params?this.props.match.params:null
-        console.log(cart_id)
+        // console.log(cart_id)
         if(Object.entries(cart_id).length!==0)
         {
-            console.log('not empty')
-            console.log(cart_id.id)
+            // console.log('not empty')
+            // console.log(cart_id.id)
             fetch('http://178.128.90.226:8000/order/'+cart_id.id)
             .then(res=>{return res.json()})
             .then(resData=>{
-                console.log(resData)
+                // console.log(resData)
+                this.order=resData.order_items
+                console.log(this.order)
                 let {temp_cart,totalCost,curr_cust_id,quantities}=this.state
                 temp_cart.customer_id=resData.customer.id
                 curr_cust_id=resData.customer.id
@@ -141,7 +146,9 @@ class Place_do extends Component{
 
     add_to_cart(id,req_quan,cost)
     {   
-        console.log(typeof(req_quan)+" "+typeof(cost))
+        // console.log(typeof(req_quan)+" "+typeof(cost))
+        // console.log((req_quan)+" "+(cost))
+        // console.log((req_quan)*(cost))
         // console.log(id+" "+name+" "+scale+" "+avai_quan+" "+req_quan+" "+is_check+" ")
         // console.log(this)
         let {temp_cart,totalCost}=this.state
@@ -150,8 +157,8 @@ class Place_do extends Component{
         // let product={id:id,product_name:name,scale:scale,quantity:avai_quan,req_quan:req_quan}
         temp_cart.customer_id=this.state.curr_cust_id
         totalCost=temp_cart.total_price
-        let product={product_id:id,quantity:parseInt(req_quan),order_item_cost:((parseInt(req_quan))*cost)}
-        // console.log(product)
+        let product={product_id:id,quantity:parseInt(req_quan),order_item_cost:parseInt((req_quan*cost))}
+        // console.log(product.order_item_cost)
         temp_cart.products.forEach(prod=>{
             if(prod.product_id==id)
             {
@@ -203,7 +210,7 @@ class Place_do extends Component{
 
     remove_from_cart(id,req_quan,cost)
     {   
-        
+        console.log(typeof(req_quan))
         let {temp_cart,totalCost}=this.state
         const curr_product=[...this.state.temp_cart.products]
         temp_cart.products.forEach(prod=>
@@ -235,6 +242,7 @@ class Place_do extends Component{
         })
         .then(res=>{return res.json()})
         .then(resd=>{
+            console.log(this.state.temp_cart)
             console.log(resd)
             this.state.order_id = resd.id
             console.log(this.state.order_id)
@@ -262,6 +270,8 @@ class Place_do extends Component{
         })
         .then(res=>{return res.json()})
         .then(resd=>{
+            console.log("PUT")
+            console.log(this.state.temp_cart)
             console.log(resd)
             this.state.order_id = resd.id
             console.log(this.state.order_id)
@@ -296,25 +306,39 @@ alert('select customer');
             return <Redirect to={this.state.redirect} />
           
         }
+        let cart
+        if(this.order.length==0)
+        {
+            cart=<div></div>
+        }
+        else{
+            cart=this.order.map(order_item=>{
+                return (
+            
+                    <Col sm="3">
+                        <Card_Cart 
+                                    id={order_item.product.id}
+                                    customer_name={this.state.curr_cust}
+                                    prod_name={order_item.product.product_name}
+                                    scale={order_item.product.scale}
+                                    avai_quantity={order_item.product.quantity}
+                                    cart_quan={order_item.quantity}
+                                    add_to_cart={this.add_to_cart}
+                                    has_cust_change={this.state.cust_change}
+                                    cost={order_item.product.cost}
+                                    image={order_item.product.image}
+                                    delete_from_cart={this.remove_from_cart}
+                        />
+                    </Col>
+                
+                )
+            })
+        }
         // let cart_prod_quan
-        let prod_card=this.products_list.map((prod,i)=>{
-            // console.log("Product id "+prod.id)
-            // this.state.temp_cart.products.map((produ,j)=>{
-            //     if(produ.product_id==prod.id)
-            //     {
-                    
-            //         cart_prod_quan=produ.quantity
-            //         // console.log(cart_prod_quan)
-            //     }
-            //     else if(produ.product_id!==prod.id){
-            //         // console.log("Inside null")
-            //         cart_prod_quan=0
-            //     }
-            // })
-            // console.log(this.state.temp_cart.products[i]['product_id'])
+        let products_card=this.products_list.map((prod,i)=>{
             return (
                 <Col sm="3">
-                <Card_temp 
+                <Card_Products 
                             id={prod.id}
                             customer_name={this.state.curr_cust}
                             prod_name={prod.product_name}
@@ -329,7 +353,7 @@ alert('select customer');
                             //         return cart_prod.product_id==prod.id ? cart_prod.quantity : init
                             //     },null)
                             // }
-                            cart_quan={this.state.quantities[i]>0?this.state.quantities[i]:0}
+                            // cart_quan={this.state.quantities[i]>0?this.state.quantities[i]:0}
                             add_to_cart={this.add_to_cart}
                             has_cust_change={this.state.cust_change}
                             cost={prod.cost}
@@ -379,11 +403,30 @@ alert('select customer');
                     
                     </Col>
                 </Row>
-                
+                <Form.Label hidden={!this.order.length>0} style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Order Items</Form.Label>
+
+                <Container fluid style={{width:"100%",overflowY:"auto"}}>
+                <Row height="auto">
+                    {cart}
+                </Row>
+                </Container>
+
+
+
+
                 <Form.Label style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Product List</Form.Label>
                 <Container fluid style={{width:"100%",overflowY:"auto"}}>
                     <Row style={{height:"500px"}}>
-                    {prod_card}
+                        {/* <Tabs defaultActiveKey="products">
+                                <Tab eventkey="products" title="All Products" style={{width:"100%"}}>
+                                    {products_card}
+                                </Tab>
+                                {/* <Tab eventkey="cart" title="Products in Cart">
+
+                                </Tab> */}
+                        {/* </Tabs> */} 
+                        {products_card}
+                    
                     </Row>
                 </Container>
                 

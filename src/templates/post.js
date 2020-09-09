@@ -38,7 +38,7 @@ export const Product=(props)=>{
             <tr>
             <td contentEditable={props.can_edit ? true:false} name="product_name" onInput={e=>{setProdName(e.target.innerHTML)}}>{props.product_name}</td>
             <td contentEditable={props.can_edit ? true:false} name="scale" id="scale_ele" onInput={e=>{setScale(e.target.innerHTML)}}>{props.scale}</td>
-            <td contentEditable={props.can_edit ? true:false} name="cost" id="cost_ele" onInput={e=>{setCost(e.target.innerHTML)}}><span className="glyphicon glyphicon-usd"></span>{props.cost}</td>
+            <td contentEditable={props.can_edit ? true:false} name="cost" id="cost_ele" onInput={e=>{setCost(e.target.innerHTML.split('</span>')[1])}}><span className="glyphicon glyphicon-usd"></span>{props.cost}</td>
             <td contentEditable={props.can_edit ? true:false} name="quantity" onInput={e=>{setQuantity(e.target.innerHTML)}} >{props.quantity}</td>
             <td><button onClick={()=>{
                 props.on_delete(props.id)
@@ -119,11 +119,74 @@ export const Place_order=(props)=>{
 }
 
 
-export const Card_temp=(props)=>{
+export const Card_Products=(props)=>{
     // console.log(props.cost)
     // console.log(props.quantity)
     // console.log(props.id)
-    console.log(props.cart_quan)
+    // console.log(props.cart_quan)
+
+    let [quantity,setQuantity]=useState(0)
+    // console.log(typeof(quantity)+" "+quantity)
+    let [checked,setChecked]=useState(false)
+    // useEffect(() => {
+    //     setQuantity(props.cart_quan)
+    //     console.log(quantity)
+    // }, [quantity])
+    // if(props.cart_quan)
+    // {
+    //     setQuantity(props.cart_quan)
+    // }
+    return (
+        <div>
+        <Card style={{marginTop:"30px"}}>
+          <CardImg top src={props.image} alt="Image not found" style={{width:"100%",height:"200px",borderBottomLeftRadius:"10px",borderBottomRightRadius:"10px"}}/>
+          <CardBody>
+            <Row>
+                <Col sm="8">
+                    <Row>
+                        <Col sm="8">
+                            <CardTitle style={{fontSize:"28px",color:"#1F1547",fontWeight:"bold",left:"24px"}} name="prod_name">{  props.prod_name  }</CardTitle>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm="8">
+                            <CardSubtitle style={{left:"24px",fontSize:"12px",color:"#92909E",top:"0px",marginBottom:"14px"}} name="scale"><AttachMoneyIcon fontSize="medium" style={{marginBottom:"5px"}}/>{props.cost} / {props.scale}</CardSubtitle>
+                        </Col>
+                    </Row>
+                </Col>
+                <Col sm="4">
+                    <input style={{border:"1px solid #C4C4C4",borderRadius:"4px",width:"80%",paddingLeft:"5px",marginTop:"10px"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(parseInt(e.target.value))}}></input>
+                </Col>
+            </Row>
+            {/* <Row>
+                <Col md="6">
+                    <CardSubtitle style={{left:"24px",fontSize:"12px",color:"#92909E"}} name="scale"><AttachMoneyIcon fontSize="medium" style={{marginBottom:"5px"}}/>{props.cost} / {props.scale}</CardSubtitle>
+                </Col>
+                <Col md="6">
+                    <input style={{borderRadius:"5px",width:"80%",paddingLeft:"20px",marginLeft:"10%",marginBottom:"10%"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(e.target.value)}}></input>
+                </Col>
+            </Row> */}
+            {/* <CardText style={{textAlign:"center",marginTop:"10px"}} name="cost"><span className="glyphicon glyphicon-usd"></span>{props.cost}</CardText> */}
+            <Row>
+                <Col sm="7">
+                    <Button style={{marginTop:"0px",marginBottom:"0px",marginRight:"0px",marginLeft:"0px",float:"center",}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost)}}><AddShoppingCartIcon fontSize="large"/> Add to cart</Button>
+                </Col>
+                <Col sm="5">
+                <Button style={{margin:"0px", float:"center"}} className="btn btn-danger" onClick={e=>{props.delete_from_cart(props.id,quantity,props.cost);setQuantity(0)}}><RemoveShoppingCartIcon fontSize="large"/> Remove</Button>
+                </Col>
+            </Row>
+            
+          </CardBody>
+        </Card>
+      </div>
+    )
+}
+
+export const Card_Cart=(props)=>{
+    // console.log(props.cost)
+    // console.log(props.quantity)
+    // console.log(props.id)
+    // console.log(props.cart_quan)
 
     let [quantity,setQuantity]=useState(props.cart_quan)
     console.log(typeof(quantity)+" "+quantity)
@@ -168,20 +231,20 @@ export const Card_temp=(props)=>{
             </Row> */}
             {/* <CardText style={{textAlign:"center",marginTop:"10px"}} name="cost"><span className="glyphicon glyphicon-usd"></span>{props.cost}</CardText> */}
             <Row>
-                <Col sm="6">
-                    <Button style={{float:"right"}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost)}}><AddShoppingCartIcon fontSize="large"/> Add to cart</Button>
+                <Col sm="7">
+                    <Button style={{margin:"0px",float:"center",}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost)}}><AddShoppingCartIcon fontSize="large"/> Add to cart</Button>
                 </Col>
-                <Col sm="6">
-                <Button style={{ float:"center"}} className="btn btn-danger" onClick={e=>{props.delete_from_cart(props.id,quantity,props.cost);setQuantity(0)}}><RemoveShoppingCartIcon fontSize="large"/> Remove</Button>
+                <Col sm="5">
+                <Button style={{margin:"0px", float:"center"}} className="btn btn-danger" onClick={e=>{props.delete_from_cart(props.id,quantity,props.cost);setQuantity(0)}}><RemoveShoppingCartIcon fontSize="large"/> Remove</Button>
                 </Col>
             </Row>
+            
             
           </CardBody>
         </Card>
       </div>
     )
 }
-
 
 
 

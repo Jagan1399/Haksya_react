@@ -17,7 +17,7 @@ class Add_Items extends Component {
              editable:false,
              edit_prod:'',
              cost:0,
-             file:null
+             file:''
         }
     }
 
@@ -35,9 +35,10 @@ class Add_Items extends Component {
    }
 
    edit_product=async (id,name,scale,quantity,cost)=>{
-       const product={product_name:name,scale:scale,quantity:quantity,cost:cost}
-       console.log(scale)
-       console.log(id)
+       const product={id:id,product_name:name,scale:scale,quantity:quantity,cost:parseInt(cost)}
+    //    console.log(scale)
+    //    console.log(id)
+    console.log(product)
        await fetch(`http://178.128.90.226:8000/product/${id}`,{
            method:"PUT",
            headers:{
@@ -112,8 +113,9 @@ class Add_Items extends Component {
             scale:'',
             quantity:0,
             cost:0,
-            file:null
+            file:''
         })
+        fd.delete()
         // this.state.cust_list.push(resd)
      //    console.log(this.state.cust_list)
         // this.setState(this.state.cust_list)
@@ -227,6 +229,7 @@ class Add_Items extends Component {
                                 placeholder="Select Product Image" 
                                 onChange={this.filehandler} 
                                 name="image_file"
+                                // value={this.state.file}
                                 style={{marginBottom:"5px"}} 
                         />
                     </ReactBootStrap.Form.Group>
