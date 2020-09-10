@@ -40,10 +40,12 @@ class Place_do extends Component{
             cart_id:null,
             order_id:null,
             quantities:[],
-            product_name:''
+            product_name:'',
+            order:[]
         }
         this.products_list=[]
-        this.order=[]
+       
+        this.isAdded=false
     }
 
     componentDidMount()
@@ -60,24 +62,26 @@ class Place_do extends Component{
             .then(res=>{return res.json()})
             .then(resData=>{
                 // console.log(resData)
-                this.order=resData.order_items
-                console.log(this.order)
-                let {temp_cart,totalCost,curr_cust_id,quantities}=this.state
+                
+                let {temp_cart,totalCost,curr_cust_id,quantities,order}=this.state
+                order=resData.order_items
                 temp_cart.customer_id=resData.customer.id
                 curr_cust_id=resData.customer.id
                 temp_cart.total_price=resData.total_price
                 totalCost=resData.total_price
                 temp_cart.products=resData.order_items.map((prod,index)=>{
                     quantities[index]=prod.quantity
-                    return {quantity:prod.quantity,product_id:prod.product.id}
+                    return {quantity:prod.quantity,product_id:prod.product.id,order_item_cost:prod.order_item_cost}
                 })
                 this.setState({
                     temp_cart,
                     order_id:cart_id.id,
                     totalCost,
                     curr_cust_id,
-                    quantities
+                    quantities,
+                    order
                 })
+                console.log(order)
                 console.log(temp_cart)
             })
             .catch(err=>console.log(err))
@@ -148,12 +152,7 @@ class Place_do extends Component{
 
     add_to_cart(id,req_quan,cost)
     {   
-        // console.log(typeof(req_quan)+" "+typeof(cost))
-        // console.log((req_quan)+" "+(cost))
-        // console.log((req_quan)*(cost))
-        // console.log(id+" "+name+" "+scale+" "+avai_quan+" "+req_quan+" "+is_check+" ")
-        // console.log(this)
-        let {temp_cart,totalCost}=this.state
+        let {temp_cart,totalCost,order}=this.state
         let Is_same_prod=false
         // console.log(this.state.curr_cust_id)
         // let product={id:id,product_name:name,scale:scale,quantity:avai_quan,req_quan:req_quan}
@@ -189,7 +188,7 @@ class Place_do extends Component{
                     return {...prod}
                 }
             })
-            product={}
+            
         }
         else if(!Is_same_prod)
         {
@@ -198,22 +197,69 @@ class Place_do extends Component{
             totalCost+=product.order_item_cost  
             // console.log(totalCost) 
             temp_cart.products.push(product)
-            product={}
             // temp_cart.products.forEach(prod=>{temp_cart.total_price+=prod.order_item_cost})
         }
         temp_cart.total_price=totalCost
-        this.setState({
+       
+        console.log(temp_cart)
+        
+         if(order.length==0)
+         {
+            temp_cart.products.forEach(cart_prod=>{
+                this.products_list.forEach(prod_list_prod=>{
+                    if(cart_prod.product_id==prod_list_prod.id)
+                    {
+                        order.push({product:prod_list_prod,quantity:cart_prod.quantity})
+                    }
+                })
+            })
+         }
+         else if(order.length>0)
+         {
+            if(order.find(order_item=>{return order_item.product.id==product.product_id}))
+            {
+                console.log("PRESENT")
+               order.find(order_item=>{if(order_item.product.id==product.product_id){order_item.quantity=product.quantity}})
+            }
+            else{
+                console.log("NO")
+                const product_info=this.products_list.find(prod=>{if(prod.id==product.product_id){return {...prod}}})
+                order.push({product:product_info,quantity:product.quantity})
+            }
+         }
+
+
+         this.setState({
             temp_cart,
             cust_change:false,
+            order
          })
-        console.log(temp_cart)
-        // console.log(totalCost)
+
+
+            // temp_cart.products.forEach(cart_prod=>{
+            //     this.order.forEach(order_prod=>{
+                
+            //         if(order_prod.product.id==cart_prod.product_id)
+            //         {
+            //             order_prod.quantity=cart_prod.quantity
+            //         }
+            //         else if(order_prod.product.id!==cart_prod.product_id)
+            //         {
+            //             let new_order_prod=this.products_list.find(prod=>{return prod.id==cart_prod.product_id})
+            //             console.log(new_order_prod) 
+            //             this.order.push({product:{...new_order_prod},quantity:cart_prod.quantity})
+            //         }
+            //     })
+            //  })
+    
+         console.log(this.state.order)
+        product={}
     }
 
     remove_from_cart(id,req_quan,cost)
     {   
-        console.log(typeof(req_quan))
-        let {temp_cart,totalCost}=this.state
+        // console.log(typeof(req_quan))
+        let {temp_cart,totalCost,order}=this.state
         const curr_product=[...this.state.temp_cart.products]
         temp_cart.products.forEach(prod=>
             {
@@ -225,17 +271,21 @@ class Place_do extends Component{
             }
         )
         temp_cart.products=temp_cart.products.filter(prod=>prod.product_id!==id)
+        order=order.filter(order_prod=>order_prod.product.id!==id)
+        // console.log(order)
         
         this.setState({
             temp_cart,
-            totalCost
+            totalCost,
+            order
         })
+        console.log(order)
         console.log(temp_cart)
     }
 
     place_order(event)
     {   if (this.state.temp_cart.customer_id && !this.state.order_id){
-        fetch('http://178.128.90.226:8000/placeorder',{
+        fetch('http://178.128.90.226:8000/orders',{
             headers:{
                 'Content-Type':"application/json"
             },
@@ -309,12 +359,13 @@ alert('select customer');
           
         }
         let cart
-        if(this.order.length==0)
+        if(this.state.order.length==0)
         {
             cart=<div></div>
         }
         else{
-            cart=this.order.map(order_item=>{
+            cart=this.state.order.map(order_item=>{
+                // console.log(order_item.product.image)
                 return (
             
                     <Col sm="3">
@@ -338,6 +389,7 @@ alert('select customer');
         }
         // let cart_prod_quan
         let products_card=this.products_list.map((prod,i)=>{
+            // console.log(prod.image)
             return (
                 <Col sm="3">
                 <Card_Products 
@@ -405,7 +457,7 @@ alert('select customer');
                     
                     </Col>
                 </Row>
-                <Form.Label hidden={!this.order.length>0} style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Order Items</Form.Label>
+                <Form.Label hidden={!this.state.order.length>0} style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Cart Items</Form.Label>
 
                 <Container className="card_container" fluid style={{width:"98%",overflowY:"auto"}}>
                 <Row height="auto">

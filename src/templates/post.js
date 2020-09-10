@@ -169,7 +169,7 @@ export const Card_Products=(props)=>{
             {/* <CardText style={{textAlign:"center",marginTop:"10px"}} name="cost"><span className="glyphicon glyphicon-usd"></span>{props.cost}</CardText> */}
             <Row>
                 <Col sm="7">
-                    <Button style={{marginTop:"0px",marginBottom:"0px",marginRight:"0px",marginLeft:"0px",float:"center",}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost)}}><AddShoppingCartIcon fontSize="large"/> Add to cart</Button>
+                    <Button style={{marginTop:"0px",marginBottom:"0px",marginRight:"0px",marginLeft:"0px",float:"center",}} className="btn btn-success" onClick={e=>{props.add_to_cart(props.id,quantity,props.cost);setQuantity(0)}}><AddShoppingCartIcon fontSize="large"/> Add to cart</Button>
                 </Col>
                 <Col sm="5">
                 <Button style={{margin:"0px", float:"center"}} className="btn btn-danger" onClick={e=>{props.delete_from_cart(props.id,quantity,props.cost);setQuantity(0)}}><RemoveShoppingCartIcon fontSize="large"/> Remove</Button>
@@ -186,10 +186,10 @@ export const Card_Cart=(props)=>{
     // console.log(props.cost)
     // console.log(props.quantity)
     // console.log(props.id)
-    // console.log(props.cart_quan)
+    console.log(props.cart_quan)
 
     let [quantity,setQuantity]=useState(props.cart_quan)
-    console.log(typeof(quantity)+" "+quantity)
+    // console.log(typeof(quantity)+" "+quantity)
     let [checked,setChecked]=useState(false)
     // useEffect(() => {
     //     setQuantity(props.cart_quan)
@@ -218,7 +218,8 @@ export const Card_Cart=(props)=>{
                     </Row>
                 </Col>
                 <Col sm="4">
-                    <input style={{border:"1px solid #C4C4C4",borderRadius:"4px",width:"80%",paddingLeft:"5px",marginTop:"10px"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(parseInt(e.target.value))}}></input>
+                    {/* <label>Quantity</label> */}
+                    <input style={{border:"1px solid #C4C4C4",borderRadius:"4px",width:"80%",paddingLeft:"5px",marginTop:"10px"}} name="req_quantity" type="number" value={props.cart_quan} onChange={e=>{setQuantity(parseInt(e.target.value))}}></input>
                 </Col>
             </Row>
             {/* <Row>
