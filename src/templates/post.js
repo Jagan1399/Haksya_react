@@ -218,8 +218,16 @@ export const Card_Cart=(props)=>{
                     </Row>
                 </Col>
                 <Col sm="4">
-                    {/* <label>Quantity</label> */}
-                    <input style={{border:"1px solid #C4C4C4",borderRadius:"4px",width:"80%",paddingLeft:"5px",marginTop:"10px"}} name="req_quantity" type="number" value={props.cart_quan} onChange={e=>{setQuantity(parseInt(e.target.value))}}></input>
+                    <Row>
+                        <Col sm="8">
+                            <input style={{border:"1px solid #C4C4C4",borderRadius:"4px",width:"80%",paddingLeft:"5px",marginTop:"10px"}} name="req_quantity" type="number" value={quantity} onChange={e=>{setQuantity(parseInt(e.target.value))}}></input>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm="8">
+                            <CardSubtitle style={{float:"left",width:"100%",marginTop:"10px",fontSize:"12px",color:"#92909E"}} name="scale">{props.cart_quan}</CardSubtitle>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
             {/* <Row>
