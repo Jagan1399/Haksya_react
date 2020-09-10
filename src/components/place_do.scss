@@ -52,3 +52,17 @@ $blue: #3498db;
         color:#fff
     }
 }
+
+// .card{
+//     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+// }
+.card_container{
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+}
+
+.card_prod{
+  &:hover{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    transform: scale(1.1);
+  }
+}

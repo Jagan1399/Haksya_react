@@ -9,6 +9,7 @@ import Card from 'react-bootstrap/Card'
 import {Col,Row,Container} from 'reactstrap'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import FilterRes from 'react-filter-search'
 
 import './place_do.scss'
 import { Redirect } from "react-router-dom";
@@ -38,7 +39,8 @@ class Place_do extends Component{
             totalCost:0,
             cart_id:null,
             order_id:null,
-            quantities:[]
+            quantities:[],
+            product_name:''
         }
         this.products_list=[]
         this.order=[]
@@ -405,7 +407,7 @@ alert('select customer');
                 </Row>
                 <Form.Label hidden={!this.order.length>0} style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Order Items</Form.Label>
 
-                <Container fluid style={{width:"100%",overflowY:"auto"}}>
+                <Container className="card_container" fluid style={{width:"98%",overflowY:"auto"}}>
                 <Row height="auto">
                     {cart}
                 </Row>
@@ -415,7 +417,7 @@ alert('select customer');
 
 
                 <Form.Label style={{marginLeft:"20px",marginTop:"20px",fontSize:"24px"}}>Product List</Form.Label>
-                <Container fluid style={{width:"100%",overflowY:"auto"}}>
+                <Container className="card_container" fluid style={{width:"98%",overflowY:"auto"}}>
                     <Row style={{height:"500px"}}>
                         {/* <Tabs defaultActiveKey="products">
                                 <Tab eventkey="products" title="All Products" style={{width:"100%"}}>
@@ -429,7 +431,6 @@ alert('select customer');
                     
                     </Row>
                 </Container>
-                
             
           </div>
         )

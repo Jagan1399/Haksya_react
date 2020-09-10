@@ -138,7 +138,7 @@ export const Card_Products=(props)=>{
     // }
     return (
         <div>
-        <Card style={{marginTop:"30px"}}>
+        <Card className="card_prod" style={{marginTop:"30px",marginBottom:"30px"}}>
           <CardImg top src={props.image} alt="Image not found" style={{width:"100%",height:"200px",borderBottomLeftRadius:"10px",borderBottomRightRadius:"10px"}}/>
           <CardBody>
             <Row>
@@ -201,7 +201,7 @@ export const Card_Cart=(props)=>{
     // }
     return (
         <div>
-        <Card style={{marginTop:"30px"}}>
+        <Card className="card_prod" style={{marginTop:"30px",marginBottom:"30px"}}>
           <CardImg top src={props.image} alt="Image not found" style={{width:"100%",height:"200px",borderBottomLeftRadius:"10px",borderBottomRightRadius:"10px"}}/>
           <CardBody>
             <Row>
