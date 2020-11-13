@@ -2,6 +2,9 @@ $green: #2ecc71;
 $red: #e74c3c;
 $blue: #3498db;
 
+body::-webkit-scrollbar{
+  display: none;
+}
 
 .btn {
     

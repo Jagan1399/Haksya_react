@@ -81,9 +81,9 @@ export default class Invoice extends Component {
                             </div>
                             <div class="col company-details">
                                 <h2 class="name">
-                                    <a target="_blank">
+                                    <div>
                                          HAKSYA GLOBAL SDN BHD ( 1036889-A)
-                                    </a>
+                                    </div>
                                 </h2>
                                 <div>NO:65 JALAN SELAT SELATAN, 7KS05 TMN PERIND SOBENA JAYA, 42000 PELABUHAN KLANG, SELANOR DARUL EHSAN, MALAYSIA</div>
                                 <div>TEL/FAX: 03-3162 6164 H/P: 012-252 5849 / 012-202 2849</div>
